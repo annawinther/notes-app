@@ -1,0 +1,15 @@
+{
+    "annanotes": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-notes-app-annanotes-115739-authRole",
+            "UnauthRoleArn": "arn:aws:iam::723455457584:role/amplify-notes-app-annanotes-115739-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::723455457584:role/amplify-notes-app-annanotes-115739-authRole",
+            "Region": "eu-west-2",
+            "DeploymentBucketName": "amplify-notes-app-annanotes-115739-deployment",
+            "UnauthRoleName": "amplify-notes-app-annanotes-115739-unauthRole",
+            "StackName": "amplify-notes-app-annanotes-115739",
+            "StackId": "arn:aws:cloudformation:eu-west-2:723455457584:stack/amplify-notes-app-annanotes-115739/410ae660-8551-11ea-b9b2-0a3915ca55a4",
+            "AmplifyAppId": "d11ctl8cii634c"
+        }
+    }
+}
