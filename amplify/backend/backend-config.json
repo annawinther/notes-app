@@ -1,1 +1,10 @@
-{}
+{
+	"auth": {
+		"notesapp0dd38193": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false
+		}
+	}
+}
