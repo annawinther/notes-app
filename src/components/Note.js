@@ -9,14 +9,14 @@ const Note = (props) => {
     return (
       <div style={styles.container}>
         <p>{title}</p>
-        <p>{description}</p>
+        {/* <p>{description}</p> */}
       {
         props.filter === 'new' && (
           <FaCircle
             color='#FF9900'
             style={styles.new}
             size={22}
-            // onClick={() => this.props.updateNote(this.props.note)}
+            onClick={() => props.updateNote(props.note)}
           />
         )
       }
@@ -30,7 +30,7 @@ const Note = (props) => {
           />
         )
       } */}
-      <p style={styles.name}>{title}</p>
+      <p style={styles.name}>{description}</p>
       <div style={styles.iconContainer}>
         <FaTimes
           onClick={() => props.deleteNote(props.note)}

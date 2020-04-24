@@ -42,14 +42,27 @@ const App = () => {
     setNotes({notes: data})
   }
 
+  const updateNote = async note => {
+    const updatedNote = {
+      ...note,
+      status: note.status === 'new' ? 'completed' : 'new'
+    }
+    const index = notesState.notes.findIndex(i => i.id === note.id)
+    console.log('idx', index)
+    const notes = [...notesState.notes]
+    notes[index] = updatedNote
+    setNotes({notes})
+  }
+  const updateFilter = filter => setNotes({notes, filter: filter})
+  const { notes, filter } = notesState;
 
-  // if (notesState.filter === 'completed') {
-  //   notesState.notes = notesState.notes.filter(n => n.status === 'completed')
-  //   console.log('note', notesState.notes);
+  //   if (filter === 'completed') {
+  //     notesState.notes = notesState.notes.filter(n => n.status === 'completed')
+  //   // console.log('note f', filterNotes);
   // }
-  // if (notesState.filter === 'new') {
+  // if (filter === 'new') {
   //   notesState.notes = notesState.notes.filter(n => n.status === 'new')
-  //   console.log('note', notesState.notes);
+  //   // console.log('note', filterNotes);
   // }
 
   return (
@@ -65,13 +78,46 @@ const App = () => {
         notes={notesState.notes}
         filter={notesState.filter}
         deleteNote={deleteNote}
+        updateNote={updateNote}
       />
-      <div>
-        test
+        <div style={styles.bottomMenu}>
+        <p
+          onClick={() => updateFilter('none')}
+          style={styles.menuItem}
+        >All</p>
+        <p
+          onClick={() => updateFilter('completed')}
+          style={styles.menuItem}
+        >Completed</p>
+        <p
+          onClick={() => updateFilter('new')}
+          style={styles.menuItem}
+        >Pending</p>
       </div>
     </div>
   );
 }
 
+const styles = {
+  container: {
+    width: 360,
+    margin: '0 auto',
+    borderBottom: '1px solid #ededed',
+  },
+  form: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  input: {
+    height: 35,
+    width: '360px',
+    border: 'none',
+    outline: 'none',
+    marginLeft: 10,
+    fontSize: 20,
+    padding: 8,
+  }
+}
 
 export default withAuthenticator(App);

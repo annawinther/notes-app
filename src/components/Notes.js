@@ -16,7 +16,7 @@ const Notes = (props) => {
                             note={note}
                             filter={props.filter}
                             deleteNote={props.deleteNote}
-                            // updateNote={props.updateNote}
+                            updateNote={props.updateNote}
                         />
                     )
                 })
