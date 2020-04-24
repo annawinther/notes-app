@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Notes from './components/Notes';
 import Form from './components/Form';
+import { withAuthenticator } from 'aws-amplify-react'
 
 import './App.css';
 
@@ -40,4 +41,4 @@ const App = () => {
 }
 
 
-export default App;
+export default withAuthenticator(App);
