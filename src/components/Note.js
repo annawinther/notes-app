@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const Note = (props) => {
+  const { title, description } = props.note;
     return (
         <div>
-            <h1>This is one note </h1>
+          <h3>{title}</h3>
+          <p>{description}</p>
         </div>
     )
 }

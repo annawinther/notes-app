@@ -20,9 +20,11 @@ const App = () => {
     console.log("hello")
   }, [])
 
-  const createNote = async note => {
-    const newNotes= [note, ...notes]
+  const createNote = () => {
+    const note = { ...formState };
+    const newNotes = [note, ...notes]
     setNotes(newNotes)
+    setFormState(initialState);
   }
 
   return (
