@@ -10,35 +10,35 @@ const Note = (props) => {
       <div style={styles.container}>
         <p>{title}</p>
         {/* <p>{description}</p> */}
-      {
-        props.filter === 'new' && (
-          <FaCircle
-            color='#FF9900'
-            style={styles.new}
+        {
+          props.filter === 'new' && (
+            <FaCircle
+              color='#FF9900'
+              style={styles.new}
+              size={22}
+              onClick={() => props.updateNote(props.note)}
+            />
+          )
+        }
+        {
+          props.filter === 'completed' && (
+            <MdCheckCircle
+              style={styles.completed}
+              size={22}
+              color='#FF9900'
+              onClick={() => props.updateNote(props.note)}
+            />
+          )
+        }
+        <p style={styles.name}>{description}</p>
+        <div style={styles.iconContainer}>
+          <FaTimes
+            onClick={() => props.deleteNote(props.note)}
+            color='red'
             size={22}
-            onClick={() => props.updateNote(props.note)}
+            style={styles.times}
           />
-        )
-      }
-      {/* {
-        status === 'completed' && (
-          <MdCheckCircle
-            style={styles.completed}
-            size={22}
-            color='#FF9900'
-            onClick={() => this.props.updateNote(this.props.note)}
-          />
-        )
-      } */}
-      <p style={styles.name}>{description}</p>
-      <div style={styles.iconContainer}>
-        <FaTimes
-          onClick={() => props.deleteNote(props.note)}
-          color='red'
-          size={22}
-          style={styles.times}
-        />
-      </div>
+        </div>
     </div>
     )
 }

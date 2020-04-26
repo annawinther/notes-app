@@ -8,7 +8,7 @@ const Notes = (props) => {
         <div>
             {
                 props.notes.map((note, index) => {
-                    console.log('nnn')
+                    console.log('nnn', note)
                     return (
                         <Note 
                             key={index}

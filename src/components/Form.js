@@ -1,20 +1,37 @@
 import React from 'react'
 
 const Form = (props) => {
+    console.log('props', props)
     const { title, description } = props.formState;
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter' && title !== '') {
+          const note = {
+            ...props.formState, status: 'new'
+          }
+        if (title === ''){
+            alert("You need a title for this note")
+        }
+         props.createNote(note)
+        }
+      }
+
     return (
         <div>
             <input 
                 onChange={e => props.setInput('title', e.target.value)}
+                onKeyPress={handleKeyPress}
                 value={title}
                 placeholder="title"
             />
-            <input 
+            <textarea 
                 onChange={e => props.setInput('description', e.target.value)}
                 value={description}
+                onKeyPress={handleKeyPress}
                 placeholder="description"
             />
             <button onClick={props.createNote}>Create Note</button>
+
         </div>
     )
 }

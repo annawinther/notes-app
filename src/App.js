@@ -5,7 +5,7 @@ import Form from './components/Form';
 import { withAuthenticator } from 'aws-amplify-react';
 // import uuid from 'uuid';
 import './App.css';
-
+// 
 const initialState = { title: '', description: '' };
 const initialNotes = { notes: [], filter: 'none' };
 
@@ -22,6 +22,17 @@ const App = () => {
     console.log("hello")
   }, [])
 
+  // const handleKeyPress = (e) => {
+  //   console.log('boo')
+  //   // if (e.key === 'Enter') {
+  //   //   const note = {
+  //   //     ...formState, status: 'new'
+  //   //   }
+  //   // console.log('notoootoerit', note)
+  //   //  createNote(note)
+  //   //  setFormState(initialState)
+  //   // }
+  // }
   const createNote = () => {
     const note = { ...formState };
     const newNotes = [note, ...notesState.notes]
@@ -39,31 +50,36 @@ const App = () => {
     // console.log('yo', notesState.notes.id)
     const data = notesState.notes.filter(n => n.title !== note.title);
     // console.log('notes after deleted', data)
-    setNotes({notes: data})
+    setNotes({notes: data, filter})
   }
 
   const updateNote = async note => {
+    console.log('test', note)
     const updatedNote = {
       ...note,
-      status: note.status === 'new' ? 'completed' : 'new'
+      filter: filter === 'new' ? 'completed' : 'new'
     }
+    console.log('test1', note.id)
+
     const index = notesState.notes.findIndex(i => i.id === note.id)
     console.log('idx', index)
-    const notes = [...notesState.notes]
-    notes[index] = updatedNote
-    setNotes({notes})
+    // const notes = [...notesState.notes]
+    // notes[index] = updatedNote
+    // setNotes({notes})
   }
-  const updateFilter = filter => setNotes({notes, filter: filter})
+  const updateFilter = filter => setNotes({notes, filter})
+
   const { notes, filter } = notesState;
 
-  //   if (filter === 'completed') {
-  //     notesState.notes = notesState.notes.filter(n => n.status === 'completed')
-  //   // console.log('note f', filterNotes);
-  // }
-  // if (filter === 'new') {
-  //   notesState.notes = notesState.notes.filter(n => n.status === 'new')
-  //   // console.log('note', filterNotes);
-  // }
+  if (filter === 'completed') {
+    const filteredNotes = notes.filter(n => n.filter === 'completed')
+    console.log('note f', filteredNotes);
+  }
+  if (filter === 'new') {
+    // console.log('new note',notesState.notes)
+    const filteredNotes = notes.filter(n => n.filter === 'new')
+    console.log('note', filteredNotes);
+  }
 
   return (
     <div className="App">
@@ -73,6 +89,7 @@ const App = () => {
         formState={formState}
         setInput={setInput}
         createNote={createNote}
+        // handleKeyPress={handleKeyPress}
       />
       <Notes
         notes={notesState.notes}
