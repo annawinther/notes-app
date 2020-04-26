@@ -9,9 +9,6 @@ const Form = (props) => {
           const note = {
             ...props.formState, status: 'new'
           }
-        if (title === ''){
-            alert("You need a title for this note")
-        }
          props.createNote(note)
         }
       }

@@ -34,6 +34,10 @@ const App = () => {
   //   // }
   // }
   const createNote = () => {
+    if (formState.title === '') {
+      alert("you cannot enter empty title")
+      return
+    }
     const note = { ...formState };
     const newNotes = [note, ...notesState.notes]
     // console.log('newnote', newNotes)
