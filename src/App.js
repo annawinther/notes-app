@@ -60,7 +60,7 @@ const App = () => {
   const deleteNote = async (note) => {
     const input = { id: note.id}
     const data = notesState.notes.filter(n => n.id !== note.id);
-    console.log('notes after deleted', data)
+    // console.log('notes after deleted', data)
     setNotes({ notes: data })
     try {
       await API.graphql(graphqlOperation(deleteTodo, { input }))
@@ -69,35 +69,33 @@ const App = () => {
     }
   }
 
-  const updateNote = async note => {
+  const updateNote = async (note) => {
+    // const noteUpdate = { ...formState };
+    
     const updatedNote = {
       ...note,
       // status: note.status === 'new' ? 'completed' : 'new'
     }
+    // console.log(updatedNote);
     const index = notesState.notes.findIndex(i => i.id === note.id)
     const notes = [...notesState.notes]
+    // console.log('nnn', notes)
+    // console.log('uuu', updatedNote)
+    
     notes[index] = updatedNote
+    setFormState(updatedNote)
     setNotes({ notes })
 
+    // const input = { id: note.id}
+    // const data = notesState.notes.filter(n => n.id !== note.id);
+    // console.log('notes after deleted', data)
+
     try {
-      await API.graphql(graphqlOperation(updateTodo, {input: updatedNote }))
+      await deleteNote(note)
     } catch (err) {
       console.log('error updating note', err)
     }
   }
-  // const updateFilter = filter => setNotes({notes, filter})
-
-  // const { notes, filter } = notesState;
-
-  // if (filter === 'completed') {
-  //   const filteredNotes = notes.filter(n => n.filter === 'completed')
-  //   // console.log('note f', filteredNotes);
-  // }
-  // if (filter === 'new') {
-  //   // console.log('new note',notesState.notes)
-  //   const filteredNotes = notes.filter(n => n.filter === 'new')
-  //   // console.log('note', filteredNotes);
-  // }
 
   return (
     <div className="App">

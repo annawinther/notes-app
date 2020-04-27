@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaTimes, FaCircle } from 'react-icons/fa'
-import { MdCheckCircle } from 'react-icons/md';
+import { MdCheckCircle, MdEdit } from 'react-icons/md';
 
 const Note = (props) => {
   // console.log('yoyoyoyoy', props)
@@ -10,7 +10,7 @@ const Note = (props) => {
       <div style={styles.container}>
         <p>{name}</p>
         {/* <p>{description}</p> */}
-        {
+        {/* {
           props.filter === 'new' && (
             <FaCircle
               color='#FF9900'
@@ -29,7 +29,7 @@ const Note = (props) => {
               onClick={() => props.updateNote(props.note)}
             />
           )
-        }
+        } */}
         <p style={styles.name}>{description}</p>
         <div style={styles.iconContainer}>
           <FaTimes
@@ -38,6 +38,12 @@ const Note = (props) => {
             size={22}
             style={styles.times}
           />
+          <MdEdit
+           style={styles.completed}
+           size={22}
+           color='black'
+           onClick={() => props.updateNote(props.note)}
+           />
         </div>
     </div>
     )
