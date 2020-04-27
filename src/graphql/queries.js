@@ -7,7 +7,6 @@ export const getTodo = /* GraphQL */ `
       id
       name
       description
-      status
     }
   }
 `;
@@ -22,7 +21,6 @@ export const listTodos = /* GraphQL */ `
         id
         name
         description
-        status
       }
       nextToken
     }
