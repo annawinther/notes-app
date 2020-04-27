@@ -5,7 +5,7 @@ import Form from './components/Form';
 import { withAuthenticator } from 'aws-amplify-react';
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import { listTodos } from './graphql/queries';
-import { createTodo, updateNote, deleteNote } from './graphql/mutations';
+import { createTodo, updateNote, deleteTodo } from './graphql/mutations';
 
 import './App.css';
 
@@ -18,7 +18,7 @@ const App = () => {
   const [notesState, setNotes] = useState(initialNotes)
   // console.log('state', notesState)
   
-  function setInput(key, value) {
+  const setInput = (key, value) => {
     setFormState({ ...formState, [key]: value });
   }
 
@@ -45,10 +45,10 @@ const App = () => {
 
       const newNotes = [note, ...notesState.notes]
       console.log('newnote', newNotes)
-      setNotes({notes: newNotes, filter: 'new'})
+      setNotes({ notes: newNotes, filter: 'new' })
       console.log(notesState.notes)
       setFormState(initialState);
-      await API.graphql(graphqlOperation(createTodo, {input: note }))
+      await API.graphql(graphqlOperation(createTodo, { input: note }))
     } catch (err) {
       console.log('error creating todo', err)
     }
@@ -57,13 +57,15 @@ const App = () => {
 
 
   const deleteNote = async (note) => {
-    // console.log('delete', note)
     const input = { id: note.id}
-    // console.log('if', input)
-    // console.log('yo', notesState.notes.id)
     const data = notesState.notes.filter(n => n.id !== note.id);
-    // console.log('notes after deleted', data)
-    setNotes({notes: data, filter})
+    console.log('notes after deleted', data)
+    setNotes({ notes: data, filter })
+    try {
+      await API.graphql(graphqlOperation(deleteTodo, { input }))
+    } catch (err) {
+      console.log('error deleting note', err);
+    }
   }
 
   const updateNote = async note => {
