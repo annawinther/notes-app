@@ -3,9 +3,14 @@ import './App.css';
 import Notes from './components/Notes';
 import Form from './components/Form';
 import { withAuthenticator } from 'aws-amplify-react';
-// import uuid from 'uuid';
+import Amplify, { API, graphqlOperation } from "aws-amplify";
+import { listNotes } from './graphql/queries';
+import { createNote, updateNote, deleteNote } from './graphql/mutations';
+
 import './App.css';
-// 
+
+
+
 const initialState = { title: '', description: '' };
 const initialNotes = { notes: [], filter: 'none' };
 
@@ -13,26 +18,27 @@ const App = () => {
   const [formState, setFormState] = useState(initialState);
   const [notesState, setNotes] = useState(initialNotes)
   // console.log('state', notesState)
-
+  
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
   }
 
+
   useEffect(() => {
-    console.log("hello")
+    fetchNotes()
   }, [])
 
-  // const handleKeyPress = (e) => {
-  //   console.log('boo')
-  //   // if (e.key === 'Enter') {
-  //   //   const note = {
-  //   //     ...formState, status: 'new'
-  //   //   }
-  //   // console.log('notoootoerit', note)
-  //   //  createNote(note)
-  //   //  setFormState(initialState)
-  //   // }
-  // }
+
+  async function fetchNotes(){
+    try {
+      const todoData = await API.graphql(graphqlOperation(listNotes))
+      const todos = todoData.data.listTodods.items
+      setNotes(todos);
+    } catch (err) {
+      console.log('error fetching todos');
+    }
+  }
+
   const createNote = () => {
     if (formState.title === '') {
       alert("you cannot enter empty title")
