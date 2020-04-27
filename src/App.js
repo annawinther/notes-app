@@ -5,7 +5,7 @@ import Form from './components/Form';
 import { withAuthenticator } from 'aws-amplify-react';
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import { listTodos } from './graphql/queries';
-import { createTodo, updateNote, deleteTodo } from './graphql/mutations';
+import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
 
 import './App.css';
 
@@ -31,6 +31,7 @@ const App = () => {
   const fetchNotes = async () => {
     try {
       const { data: { listTodos: { items }}} = await API.graphql(graphqlOperation(listTodos))
+      console.log('items', items)
       setNotes({ notes: items })
     } catch (err) {
       console.log('error fetching notes...', err)
@@ -38,16 +39,16 @@ const App = () => {
   }
 
   const createNote = async () => {
+    if (!formState.name || !formState.description) return
+    const note = { ...formState };
+    console.log('note', note)
+    
+    const newNotes = [note, ...notesState.notes]
+    console.log('newnote', newNotes)
+    setNotes({ notes: newNotes, filter: 'new' })
+    console.log(notesState.notes)
+    setFormState(initialState);
     try {
-      if (!formState.name || !formState.description) return
-       const note = { ...formState };
-       console.log('note', note)
-
-      const newNotes = [note, ...notesState.notes]
-      console.log('newnote', newNotes)
-      setNotes({ notes: newNotes, filter: 'new' })
-      console.log(notesState.notes)
-      setFormState(initialState);
       await API.graphql(graphqlOperation(createTodo, { input: note }))
     } catch (err) {
       console.log('error creating todo', err)
@@ -60,7 +61,7 @@ const App = () => {
     const input = { id: note.id}
     const data = notesState.notes.filter(n => n.id !== note.id);
     console.log('notes after deleted', data)
-    setNotes({ notes: data, filter })
+    setNotes({ notes: data })
     try {
       await API.graphql(graphqlOperation(deleteTodo, { input }))
     } catch (err) {
@@ -69,32 +70,34 @@ const App = () => {
   }
 
   const updateNote = async note => {
-    // console.log('test', note)
     const updatedNote = {
       ...note,
-      filter: filter === 'new' ? 'completed' : 'new'
+      // status: note.status === 'new' ? 'completed' : 'new'
     }
-    console.log('test1', note.id)
-
     const index = notesState.notes.findIndex(i => i.id === note.id)
-    // console.log('idx', index)
-    // const notes = [...notesState.notes]
-    // notes[index] = updatedNote
-    // setNotes({notes})
-  }
-  const updateFilter = filter => setNotes({notes, filter})
+    const notes = [...notesState.notes]
+    notes[index] = updatedNote
+    setNotes({ notes })
 
-  const { notes, filter } = notesState;
+    try {
+      await API.graphql(graphqlOperation(updateTodo, {input: updatedNote }))
+    } catch (err) {
+      console.log('error updating note', err)
+    }
+  }
+  // const updateFilter = filter => setNotes({notes, filter})
 
-  if (filter === 'completed') {
-    const filteredNotes = notes.filter(n => n.filter === 'completed')
-    // console.log('note f', filteredNotes);
-  }
-  if (filter === 'new') {
-    // console.log('new note',notesState.notes)
-    const filteredNotes = notes.filter(n => n.filter === 'new')
-    // console.log('note', filteredNotes);
-  }
+  // const { notes, filter } = notesState;
+
+  // if (filter === 'completed') {
+  //   const filteredNotes = notes.filter(n => n.filter === 'completed')
+  //   // console.log('note f', filteredNotes);
+  // }
+  // if (filter === 'new') {
+  //   // console.log('new note',notesState.notes)
+  //   const filteredNotes = notes.filter(n => n.filter === 'new')
+  //   // console.log('note', filteredNotes);
+  // }
 
   return (
     <div className="App">
@@ -112,7 +115,7 @@ const App = () => {
         deleteNote={deleteNote}
         updateNote={updateNote}
       />
-        <div style={styles.bottomMenu}>
+        {/* <div style={styles.bottomMenu}>
         <p
           onClick={() => updateFilter('none')}
           style={styles.menuItem}
@@ -125,7 +128,7 @@ const App = () => {
           onClick={() => updateFilter('new')}
           style={styles.menuItem}
         >Pending</p>
-      </div>
+      </div> */}
     </div>
   );
 }
