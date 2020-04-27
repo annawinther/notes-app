@@ -4,8 +4,8 @@ import Notes from './components/Notes';
 import Form from './components/Form';
 import { withAuthenticator } from 'aws-amplify-react';
 import Amplify, { API, graphqlOperation } from "aws-amplify";
-import { listTodos } from './graphql/queries';
-import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
+import { listNotes } from './graphql/queries';
+import { createNote, updateTodo, deleteNote } from './graphql/mutations';
 
 import './App.css';
 
@@ -29,14 +29,14 @@ const App = () => {
 
   const fetchNotes = async () => {
     try {
-      const { data: { listTodos: { items }}} = await API.graphql(graphqlOperation(listTodos))
+      const { data: { listNotes: { items }}} = await API.graphql(graphqlOperation(listNotes))
       setNotes({ notes: items })
     } catch (err) {
       console.log('error fetching notes...', err)
     }
   }
 
-  const createNote = async () => {
+  const onCreateNote = async () => {
     if (!formState.name || !formState.description) return
     const note = { ...formState };
     
@@ -44,7 +44,7 @@ const App = () => {
     setNotes({ notes: newNotes })
     setFormState(initialState);
     try {
-      await API.graphql(graphqlOperation(createTodo, { input: note }))
+      await API.graphql(graphqlOperation(createNote, { input: note }))
     } catch (err) {
       console.log('error creating todo', err)
     }
@@ -52,21 +52,22 @@ const App = () => {
   }
 
 
-  const deleteNote = async (note) => {
+  const onDeleteNote = async (note) => {
     const input = { id: note.id}
     const data = notesState.notes.filter(n => n.id !== note.id);
     setNotes({ notes: data })
     try {
-      await API.graphql(graphqlOperation(deleteTodo, { input }))
+      await API.graphql(graphqlOperation(deleteNote, { input }))
     } catch (err) {
       console.log('error deleting note', err);
     }
   }
 
-  const updateNote = async (note) => {    
+  const onUpdateNote = async (note) => {    
     const updatedNote = {
       ...note,
     }
+    // console.log(updatedNote)
     const index = notesState.notes.findIndex(i => i.id === note.id)
     const notes = [...notesState.notes]
     
@@ -75,7 +76,7 @@ const App = () => {
     setNotes({ notes })
 
     try {
-       deleteNote(note)
+       onDeleteNote(note)
     } catch (err) {
       console.log('error updating note', err)
     }
@@ -87,12 +88,12 @@ const App = () => {
       <Form
         formState={formState}
         setInput={setInput}
-        createNote={createNote}
+        createNote={onCreateNote}
       />
       <Notes
         notes={notesState.notes}
-        deleteNote={deleteNote}
-        updateNote={updateNote}
+        deleteNote={onDeleteNote}
+        updateNote={onUpdateNote}
       />
     </div>
   );
