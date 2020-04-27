@@ -1,8 +1,8 @@
 import React from 'react'
 
 const Form = (props) => {
-    console.log('props', props)
-    const { title, description } = props.formState;
+    // console.log('props', props)
+    const { name, description } = props.formState;
 
     // const handleKeyPress = (e) => {
     //     if (e.key === 'Enter' && title !== '') {
@@ -16,10 +16,10 @@ const Form = (props) => {
     return (
         <div>
             <input 
-                onChange={e => props.setInput('title', e.target.value)}
+                onChange={e => props.setInput('name', e.target.value)}
                 // onKeyPress={handleKeyPress}
-                value={title}
-                placeholder="title"
+                value={name}
+                placeholder="name"
             />
             <textarea 
                 onChange={e => props.setInput('description', e.target.value)}

@@ -2,13 +2,13 @@ import React from 'react';
 import Note from './Note';
 
 const Notes = (props) => {
-    console.log('map',props)
+    // console.log('map',props)
 
     return (
         <div>
             {
                 props.notes.map((note, index) => {
-                    console.log('nnn', note)
+                    // console.log('nnn', note)
                     return (
                         <Note 
                             key={index}

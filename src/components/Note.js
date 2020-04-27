@@ -3,12 +3,12 @@ import { FaTimes, FaCircle } from 'react-icons/fa'
 import { MdCheckCircle } from 'react-icons/md';
 
 const Note = (props) => {
-  console.log('yoyoyoyoy', props)
-  const { title, description } = props.note;
+  // console.log('yoyoyoyoy', props)
+  const { name, description } = props.note;
 
     return (
       <div style={styles.container}>
-        <p>{title}</p>
+        <p>{name}</p>
         {/* <p>{description}</p> */}
         {
           props.filter === 'new' && (
