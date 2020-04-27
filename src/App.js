@@ -74,10 +74,6 @@ const App = () => {
     setFormState(updatedNote)
     setNotes({ notes })
 
-    // const input = { id: note.id}
-    // const data = notesState.notes.filter(n => n.id !== note.id);
-    // console.log('notes after deleted', data)
-
     try {
        deleteNote(note)
     } catch (err) {
@@ -92,7 +88,6 @@ const App = () => {
         formState={formState}
         setInput={setInput}
         createNote={createNote}
-        // handleKeyPress={handleKeyPress}
       />
       <Notes
         notes={notesState.notes}
