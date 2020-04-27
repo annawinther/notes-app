@@ -11,12 +11,11 @@ import './App.css';
 
 
 const initialState = { name: '', description: '' };
-const initialNotes = { notes: [], filter: 'none' };
+const initialNotes = { notes: [] };
 
 const App = () => {
   const [formState, setFormState] = useState(initialState);
   const [notesState, setNotes] = useState(initialNotes)
-  // console.log('state', notesState)
   
   const setInput = (key, value) => {
     setFormState({ ...formState, [key]: value });
@@ -31,7 +30,6 @@ const App = () => {
   const fetchNotes = async () => {
     try {
       const { data: { listTodos: { items }}} = await API.graphql(graphqlOperation(listTodos))
-      console.log('items', items)
       setNotes({ notes: items })
     } catch (err) {
       console.log('error fetching notes...', err)
@@ -41,12 +39,9 @@ const App = () => {
   const createNote = async () => {
     if (!formState.name || !formState.description) return
     const note = { ...formState };
-    console.log('note', note)
     
     const newNotes = [note, ...notesState.notes]
-    console.log('newnote', newNotes)
-    setNotes({ notes: newNotes, filter: 'new' })
-    console.log(notesState.notes)
+    setNotes({ notes: newNotes })
     setFormState(initialState);
     try {
       await API.graphql(graphqlOperation(createTodo, { input: note }))
@@ -60,7 +55,6 @@ const App = () => {
   const deleteNote = async (note) => {
     const input = { id: note.id}
     const data = notesState.notes.filter(n => n.id !== note.id);
-    // console.log('notes after deleted', data)
     setNotes({ notes: data })
     try {
       await API.graphql(graphqlOperation(deleteTodo, { input }))
@@ -69,18 +63,12 @@ const App = () => {
     }
   }
 
-  const updateNote = async (note) => {
-    // const noteUpdate = { ...formState };
-    
+  const updateNote = async (note) => {    
     const updatedNote = {
       ...note,
-      // status: note.status === 'new' ? 'completed' : 'new'
     }
-    // console.log(updatedNote);
     const index = notesState.notes.findIndex(i => i.id === note.id)
     const notes = [...notesState.notes]
-    // console.log('nnn', notes)
-    // console.log('uuu', updatedNote)
     
     notes[index] = updatedNote
     setFormState(updatedNote)
@@ -91,7 +79,7 @@ const App = () => {
     // console.log('notes after deleted', data)
 
     try {
-      await deleteNote(note)
+       deleteNote(note)
     } catch (err) {
       console.log('error updating note', err)
     }
@@ -99,7 +87,6 @@ const App = () => {
 
   return (
     <div className="App">
-      {/* {console.log('hei', notesState)} */}
       <p>Notes</p>
       <Form
         formState={formState}
@@ -109,24 +96,9 @@ const App = () => {
       />
       <Notes
         notes={notesState.notes}
-        filter={notesState.filter}
         deleteNote={deleteNote}
         updateNote={updateNote}
       />
-        {/* <div style={styles.bottomMenu}>
-        <p
-          onClick={() => updateFilter('none')}
-          style={styles.menuItem}
-        >All</p>
-        <p
-          onClick={() => updateFilter('completed')}
-          style={styles.menuItem}
-        >Completed</p>
-        <p
-          onClick={() => updateFilter('new')}
-          style={styles.menuItem}
-        >Pending</p>
-      </div> */}
     </div>
   );
 }
