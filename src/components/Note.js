@@ -17,8 +17,8 @@ const Note = ({ note, deleteNote, updateNote }) => {
         />
         <MdEdit
           onClick={() => updateNote(note)}
-          size={22}
           color="black"
+          size={22}
         />
       </div>
     </div>

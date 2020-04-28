@@ -4,9 +4,10 @@ import Note from './Note';
 const Notes = ({ notes, deleteNote, updateNote }) => (
   <div>
     {
-        notes.map((note) => (
+        notes.map((note, index) => (
           <Note
-            key={note.id}
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
             note={note}
             deleteNote={deleteNote}
             updateNote={updateNote}

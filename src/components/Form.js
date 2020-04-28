@@ -1,6 +1,8 @@
 import React from 'react';
 
-const Form = ({ formState, setInput, createNote }) => {
+const Form = ({
+  formState, setInput, createNote, handleSubmit, edit,
+}) => {
   const { name, description } = formState;
 
   return (
@@ -15,9 +17,14 @@ const Form = ({ formState, setInput, createNote }) => {
         value={description}
         placeholder="description"
       />
-      <button type="submit" onClick={createNote}>
-        Create Note
-      </button>
+      {
+          edit ? <button type="submit" onClick={() => handleSubmit(formState)}>Save</button>
+            : (
+              <button type="submit" onClick={createNote}>
+                Create Note
+              </button>
+            )
+       }
     </div>
   );
 };

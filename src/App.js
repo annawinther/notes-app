@@ -9,13 +9,13 @@ import { createNote, updateNote, deleteNote } from './graphql/mutations';
 import './App.css';
 
 
-const initialState = { name: '', description: '' };
+const initialState = { id: null, name: '', description: '' };
 const initialNotes = { notes: [] };
 
 const App = () => {
   const [formState, setFormState] = useState(initialState);
   const [notesState, setNotes] = useState(initialNotes);
-
+  const [edit, setEdit] = useState(false);
   const setInput = (key, value) => {
     setFormState({ ...formState, [key]: value });
   };
@@ -37,9 +37,10 @@ const App = () => {
   const onCreateNote = async () => {
     if (!formState.name || !formState.description) return;
     const note = { ...formState };
-    // const newNotes = [note, ...notesState.notes]
-    // setNotes({ notes: newNotes })
+    const newNotes = [note, ...notesState.notes];
+    setNotes({ notes: newNotes });
     setFormState(initialState);
+    setEdit(false);
     try {
       await API.graphql(graphqlOperation(createNote, { input: note }));
     } catch (err) {
@@ -61,21 +62,30 @@ const App = () => {
     }
   };
 
-  const onUpdateNote = async (note) => {
+  const onUpdateNote = (note) => {
+    setEdit(true);
     const updatedNote = {
+      id: note.id,
       ...note,
     };
-    // console.log(updatedNote);
-    // const index = notesState.notes.findIndex(i => i.id === note.id)
-    // const notes = [...notesState.notes]
-    // notes[index] = updatedNote
-    const data = notesState.notes.filter((n) => n.id === updatedNote.id);
-    // console.log('data', data[0]);
     setFormState(updatedNote);
-    // setNotes({ notes })
+  };
+
+  const handleSubmit = async (note) => {
+    const updatedNote = {
+      id: note.id,
+      name: note.name,
+      description: note.description,
+    };
+    const index = notesState.notes.findIndex((i) => i.id === note.id);
+    const notes = [...notesState.notes];
+    notes[index] = updatedNote;
+    setNotes({ notes });
+    setFormState(initialState);
+    setEdit(false);
 
     try {
-      await API.graphql(graphqlOperation(updateNote, { input: data[0] }));
+      await API.graphql(graphqlOperation(updateNote, { input: updatedNote }));
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log('error updating note', err);
@@ -89,6 +99,8 @@ const App = () => {
         formState={formState}
         setInput={setInput}
         createNote={onCreateNote}
+        handleSubmit={handleSubmit}
+        edit={edit}
       />
       <Notes
         notes={notesState.notes}
