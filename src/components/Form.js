@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Form = (props) => {
-  const { formState, setInput, createNote } = props;
+const Form = ({ formState, setInput, createNote }) => {
   const { name, description } = formState;
 
   return (

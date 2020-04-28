@@ -2,8 +2,7 @@ import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
 
-const Note = (props) => {
-  const { note, deleteNote, updateNote } = props;
+const Note = ({ note, deleteNote, updateNote }) => {
   const { name, description } = note;
 
   return (

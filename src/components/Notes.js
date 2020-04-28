@@ -1,11 +1,9 @@
 import React from 'react';
 import Note from './Note';
 
-const Notes = (props) => {
-  const { notes, deleteNote, updateNote } = props;
-  return (
-    <div>
-      {
+const Notes = ({ notes, deleteNote, updateNote }) => (
+  <div>
+    {
         notes.map((note) => (
           <Note
             key={note.id}
@@ -15,8 +13,6 @@ const Notes = (props) => {
           />
         ))
        }
-    </div>
-  );
-};
-
+  </div>
+);
 export default Notes;
