@@ -1,47 +1,29 @@
 import React from 'react';
-import { FaTimes } from 'react-icons/fa'
+import { FaTimes } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
 
 const Note = (props) => {
-  const { name, description } = props.note;
+  const { note, deleteNote, updateNote } = props;
+  const { name, description } = note;
 
-    return (
-      <div style={styles.container}>
-        <p>{name}</p>
-        <p style={styles.name}>{description}</p>
-        <div style={styles.iconContainer}>
-          <FaTimes
-            onClick={() => props.deleteNote(props.note)}
-            color='red'
-            size={22}
-            style={styles.times}
-          />
-          <MdEdit
-           style={styles.completed}
-           size={22}
-           color='black'
-           onClick={() => props.updateNote(props.note)}
-           />
-        </div>
+  return (
+    <div>
+      <p>{name}</p>
+      <p>{description}</p>
+      <div>
+        <FaTimes
+          onClick={() => deleteNote(note)}
+          color="red"
+          size={22}
+        />
+        <MdEdit
+          onClick={() => updateNote(note)}
+          size={22}
+          color="black"
+        />
+      </div>
     </div>
-    )
-}
-const styles = {
-  container: {
-    borderBottom: '1px solid rgba(0, 0, 0, .15)',
-    display: 'flex',
-    alignItems: 'center'
-  },
-  name: {
-    textAlign: 'left',
-    fontSize: 18
-  },
-  iconContainer: {
-    display: 'flex',
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
-  }
-}
+  );
+};
 
-  export default Note; 
+export default Note;
