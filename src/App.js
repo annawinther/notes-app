@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { withAuthenticator } from 'aws-amplify-react';
 import { API, graphqlOperation } from 'aws-amplify';
+import { connect } from 'react-redux';
 import Notes from './components/Notes';
 import Form from './components/Form';
 import { listNotes } from './graphql/queries';
 import { createNote, updateNote, deleteNote } from './graphql/mutations';
+import { increment, decrement } from './modules/notes/notesActions';
 
 import './App.css';
 
@@ -12,7 +14,8 @@ import './App.css';
 const initialState = { id: null, name: '', description: '' };
 const initialNotes = { notes: [] };
 
-const App = () => {
+// eslint-disable-next-line no-shadow
+const App = ({ count, increment, decrement }) => {
   const [formState, setFormState] = useState(initialState);
   const [notesState, setNotes] = useState(initialNotes);
   const [edit, setEdit] = useState(false);
@@ -94,6 +97,14 @@ const App = () => {
 
   return (
     <div className="App">
+      <div>
+        <h1>
+          Redux Setup
+          {count.count}
+        </h1>
+        <button type="submit" onClick={() => decrement()}>Decrement</button>
+        <button type="submit" onClick={() => increment()}>Increment</button>
+      </div>
       <p>Notes</p>
       <Form
         formState={formState}
@@ -111,4 +122,10 @@ const App = () => {
   );
 };
 
-export default withAuthenticator(App);
+const mapStateToProps = (state) => ({
+  count: state.count,
+});
+
+export default connect(mapStateToProps, {
+  increment, decrement,
+})(withAuthenticator(App));
