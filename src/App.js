@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { withAuthenticator } from 'aws-amplify-react';
-import { API, graphqlOperation } from 'aws-amplify';
 import { connect } from 'react-redux';
 import Notes from './components/Notes';
 import Form from './components/Form';
-import { fetchNotes, addNotes, deleteNoteAction, updtaeNoteAction } from './modules/notes/notesActions';
-// import { createNote, updateNote, deleteNote } from './graphql/mutations';
-
+import {
+  fetchNotes, addNotes, deleteNoteAction, updateNoteAction,
+} from './modules/notes/notesActions';
 
 import './App.css';
 
 const initialState = { id: null, name: '', description: '' };
-// const initialNotes = {notes: []}
-// eslint-disable-next-line no-shadow
-const App = ({ notes, fetchNotes, addNotes, deleteNoteAction, updtaeNoteAction }) => {
-  // console.log('notes', notes);
+
+const App = ({
+  // eslint-disable-next-line no-shadow
+  notes, fetchNotes, addNotes, deleteNoteAction, updateNoteAction,
+}) => {
   const [formState, setFormState] = useState(initialState);
-  // const [notesState, setNotes] = useState(initialNotes);
   const [edit, setEdit] = useState(false);
   const { notesArray } = notes;
 
@@ -40,8 +39,6 @@ const App = ({ notes, fetchNotes, addNotes, deleteNoteAction, updtaeNoteAction }
 
   const onDeleteNote = (note) => {
     const input = { id: note.id };
-    // const data = notesArray.filter((n) => n.id !== note.id);
-    // console.log(data)
     deleteNoteAction(input);
     fetchNotes();
   };
@@ -62,18 +59,11 @@ const App = ({ notes, fetchNotes, addNotes, deleteNoteAction, updtaeNoteAction }
       description: note.description,
     };
     const index = notesArray.findIndex((i) => i.id === note.id);
-    const notes = [...notesArray];
-    notes[index] = updatedNote;
-    // setNotes({ notes });
+    const allNotes = [...notesArray];
+    allNotes[index] = updatedNote;
     setFormState(initialState);
     setEdit(false);
-    updtaeNoteAction(updatedNote, notes);
-    // try {
-    //   await API.graphql(graphqlOperation(updateNote, { input: updatedNote }));
-    // } catch (err) {
-    //   // eslint-disable-next-line no-console
-    //   console.log('error updating note', err);
-    // }
+    updateNoteAction(updatedNote, allNotes);
   };
 
   return (
@@ -103,5 +93,5 @@ export default connect(mapStateToProps, {
   fetchNotes,
   addNotes,
   deleteNoteAction,
-  updtaeNoteAction
+  updateNoteAction,
 })(withAuthenticator(App));

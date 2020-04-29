@@ -2,7 +2,6 @@ import * as types from './notesTypes';
 
 const initialState = {
   notesArray: [],
-  addedNotes: [],
   loading: false,
   isEditing: false,
   deletingNote: false,
@@ -24,7 +23,7 @@ const noteReducer = (state = initialState, action) => {
     case types.ON_FETCH_NOTES_FAILURE:
       return {
         ...state,
-        errors: action.errors,
+        errors: action.payload,
       };
     case types.ON_ADD_NOTE_START:
       return {
