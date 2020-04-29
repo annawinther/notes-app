@@ -4,7 +4,6 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { connect } from 'react-redux';
 import Notes from './components/Notes';
 import Form from './components/Form';
-import { createNote, updateNote, deleteNote } from './graphql/mutations';
 import { fetchNotes } from './modules/notes/notesActions';
 
 import './App.css';

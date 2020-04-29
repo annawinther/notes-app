@@ -1,5 +1,7 @@
 import { API, graphqlOperation } from 'aws-amplify';
 import { listNotes } from '../../graphql/queries';
+import { createNote, updateNote, deleteNote } from './graphql/mutations';
+
 import * as types from './notesTypes';
 
 export const fetchNotes = () => (dispatch) => {
