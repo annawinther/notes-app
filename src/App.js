@@ -4,19 +4,20 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { connect } from 'react-redux';
 import Notes from './components/Notes';
 import Form from './components/Form';
-import { fetchNotes } from './modules/notes/notesActions';
+import { fetchNotes, addNotes } from './modules/notes/notesActions';
+import { createNote, updateNote, deleteNote } from './graphql/mutations';
 
 import './App.css';
 
 const initialState = { id: null, name: '', description: '' };
-
+// const initialNotes = {notes: []}
 // eslint-disable-next-line no-shadow
-const App = ({ notes, fetchNotes }) => {
+const App = ({ notes, fetchNotes, addNotes }) => {
   // console.log('notes', notes);
   const [formState, setFormState] = useState(initialState);
   // const [notesState, setNotes] = useState(initialNotes);
   // const [edit, setEdit] = useState(false);
-  const { notesArray } = notes;
+  const { notesArray, addedNotes } = notes;
 
   const setInput = (key, value) => {
     setFormState({ ...formState, [key]: value });
@@ -27,33 +28,26 @@ const App = ({ notes, fetchNotes }) => {
   }, []);
 
   const onCreateNote = async () => {
-    console.log('add')
-    // if (!formState.name || !formState.description) return;
-    // const note = { ...formState };
-    // const newNotes = [note, ...notesState.notes];
-    // setNotes({ notes: newNotes });
-    // setFormState(initialState);
-    // setEdit(false);
-    // try {
-    //   await API.graphql(graphqlOperation(createNote, { input: note }));
-    // } catch (err) {
-    //   // eslint-disable-next-line no-console
-    //   console.log('error creating todo', err);
-    // }
+    if (!formState.name || !formState.description) return;
+    const note = { ...formState };
+    setFormState(initialState);
+    addNotes(note);
+    fetchNotes();
   };
 
 
   const onDeleteNote = async (note) => {
-    console.log('delete');
-    // const input = { id: note.id };
-    // const data = notesState.notes.filter((n) => n.id !== note.id);
-    // setNotes({ notes: data });
-    // try {
-    //   await API.graphql(graphqlOperation(deleteNote, { input }));
-    // } catch (err) {
-    //   // eslint-disable-next-line no-console
-    //   console.log('error deleting note', err);
-    // }
+    const input = { id: note.id };
+    const data = notesArray.filter((n) => n.id !== note.id);
+    // setNotes( );
+    fetchNotes();
+
+    try {
+      await API.graphql(graphqlOperation(deleteNote, { input }));
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log('error deleting note', err);
+    }
   };
 
   const onUpdateNote = (note) => {
@@ -113,4 +107,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   fetchNotes,
+  addNotes,
 })(withAuthenticator(App));

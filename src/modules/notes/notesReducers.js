@@ -1,14 +1,14 @@
 import * as types from './notesTypes';
 
 const initialState = {
-  count: 0,
   notesArray: [],
+  addedNotes: [],
   loading: false,
+  isEditing: false,
   errors: null,
 };
 
 const noteReducer = (state = initialState, action) => {
-  // console.log('test', state, action.payload);
   switch (action.type) {
     case types.ON_FETCH_NOTES_START:
       return {
@@ -18,10 +18,24 @@ const noteReducer = (state = initialState, action) => {
     case types.ON_FETCH_NOTES_SUCCESS:
       return {
         ...state,
-        loading: false,
         notesArray: action.payload,
       };
     case types.ON_FETCH_NOTES_FAILURE:
+      return {
+        ...state,
+        errors: action.errors,
+      };
+    case types.ON_ADD_NOTE_START:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.ON_ADD_NOTE_SUCCESS:
+      return {
+        ...state,
+        addedNotes: action.payload,
+      };
+    case types.ON_ADD_NOTE_FAILURE:
       return {
         ...state,
         errors: action.errors,
