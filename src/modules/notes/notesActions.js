@@ -2,21 +2,12 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { listNotes } from '../../graphql/queries';
 import * as types from './notesTypes';
 
-export const increment = () => ({
-  type: types.INCREMENT,
-});
-
-export const decrement = () => ({
-  type: types.DECREMENT,
-});
-
 export const fetchNotes = () => (dispatch) => {
-  // console.log('hello', dispatch);
   dispatch({ type: types.ON_FETCH_NOTES_START });
-  
+
   return API.graphql(graphqlOperation(listNotes))
     .then(({ data }) => {
-      console.log('res', data.listNotes.items);
+      // console.log('res', data.listNotes.items);
       dispatch({
         type: types.ON_FETCH_NOTES_SUCCESS,
         payload: data.listNotes.items,

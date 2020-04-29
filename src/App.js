@@ -4,40 +4,27 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { connect } from 'react-redux';
 import Notes from './components/Notes';
 import Form from './components/Form';
-// import { listNotes } from './graphql/queries';
 import { createNote, updateNote, deleteNote } from './graphql/mutations';
-import { increment, decrement, fetchNotes } from './modules/notes/notesActions';
+import { fetchNotes } from './modules/notes/notesActions';
 
 import './App.css';
 
 const initialState = { id: null, name: '', description: '' };
-// const initialNotes = { notes: [] };
 
-const App = (props) => {
+// eslint-disable-next-line no-shadow
+const App = ({ notes, fetchNotes }) => {
+  // console.log('notes', notes);
   const [formState, setFormState] = useState(initialState);
   // const [notesState, setNotes] = useState(initialNotes);
   // const [edit, setEdit] = useState(false);
-  console.log('notes', props.count.notesArray);
-  const { count, fetchNotes } = props;
-  const { notesArray } = count; 
-  // const [testNotes, setTestNotes] = useState([]);
+  const { notesArray } = notes;
+
   const setInput = (key, value) => {
     setFormState({ ...formState, [key]: value });
   };
 
-  // const fetchNotes = async () => {
-  //   try {
-  //     const { data: { listNotes: { items } } } = await API.graphql(graphqlOperation(listNotes));
-  //     setNotes({ notes: items });
-  //   } catch (err) {
-  //     // eslint-disable-next-line no-console
-  //     console.log('error fetching notes...', err);
-  //   }
-  // };
-
   useEffect(() => {
     fetchNotes();
-    // setTestNotes(notesArray)
   }, []);
 
   const onCreateNote = async () => {
@@ -104,14 +91,6 @@ const App = (props) => {
 
   return (
     <div className="App">
-      <div>
-        <h1>
-          Redux Setup
-          {props.count.count}
-        </h1>
-        <button type="submit" onClick={() => props.decrement()}>Decrement</button>
-        <button type="submit" onClick={() => props.increment()}>Increment</button>
-      </div>
       <p>Notes</p>
       <Form
         formState={formState}
@@ -122,7 +101,6 @@ const App = (props) => {
       />
       <Notes
         notes={notesArray}
-        // notes={notes}
         deleteNote={onDeleteNote}
         updateNote={onUpdateNote}
       />
@@ -131,12 +109,9 @@ const App = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  count: state.count,
-  // notesArray: state.notesArray,
+  notes: state.notes,
 });
 
 export default connect(mapStateToProps, {
-  increment,
-  decrement,
   fetchNotes,
 })(withAuthenticator(App));

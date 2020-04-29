@@ -7,24 +7,13 @@ const initialState = {
   errors: null,
 };
 
-const countReducer = (state = initialState, action) => {
-  console.log('test', state, action.payload);
+const noteReducer = (state = initialState, action) => {
+  // console.log('test', state, action.payload);
   switch (action.type) {
-    case types.INCREMENT:
-      return {
-        ...state,
-        count: state.count + 1,
-      };
-    case types.DECREMENT:
-      return {
-        ...state,
-        count: state.count - 1,
-      };
     case types.ON_FETCH_NOTES_START:
       return {
         ...state,
         loading: true,
-        // notesArray: [{ name: 'yo', description: 'test' }],
       };
     case types.ON_FETCH_NOTES_SUCCESS:
       return {
@@ -42,4 +31,4 @@ const countReducer = (state = initialState, action) => {
   }
 };
 
-export default countReducer;
+export default noteReducer;
