@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Notes from './components/Notes';
 import Form from './components/Form';
 import {
-  fetchNotes, addNotes, deleteNoteAction, updateNoteAction,
+  fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction,
 } from './modules/notes/notesActions';
 
 import './App.css';
@@ -13,7 +13,7 @@ const initialState = { id: null, name: '', description: '' };
 
 const App = ({
   // eslint-disable-next-line no-shadow
-  notes, fetchNotes, addNotes, deleteNoteAction, updateNoteAction,
+  notes, fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction,
 }) => {
   const [formState, setFormState] = useState(initialState);
   const [edit, setEdit] = useState(false);
@@ -24,7 +24,7 @@ const App = ({
   };
 
   useEffect(() => {
-    fetchNotes();
+    fetchNotesAction();
   }, []);
 
   const onCreateNote = async () => {
@@ -32,15 +32,14 @@ const App = ({
     const note = { ...formState };
     const newNotes = [note, ...notesArray];
     setFormState(initialState);
-    addNotes(note, newNotes);
-    fetchNotes();
+    addNotesAction(note, newNotes);
+    fetchNotesAction();
   };
-
 
   const onDeleteNote = (note) => {
     const input = { id: note.id };
     deleteNoteAction(input);
-    fetchNotes();
+    fetchNotesAction();
   };
 
   const onUpdateNote = (note) => {
@@ -90,8 +89,8 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  fetchNotes,
-  addNotes,
+  fetchNotesAction,
+  addNotesAction,
   deleteNoteAction,
   updateNoteAction,
 })(withAuthenticator(App));

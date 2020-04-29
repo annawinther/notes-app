@@ -4,7 +4,7 @@ import { createNote, updateNote, deleteNote } from '../../graphql/mutations';
 
 import * as types from './notesTypes';
 
-export const fetchNotes = () => (dispatch) => {
+export const fetchNotesAction = () => (dispatch) => {
   dispatch({ type: types.ON_FETCH_NOTES_START });
 
   return API.graphql(graphqlOperation(listNotes))
@@ -22,7 +22,7 @@ export const fetchNotes = () => (dispatch) => {
     });
 };
 
-export const addNotes = (note, newNotes) => async (dispatch) => {
+export const addNotesAction = (note, newNotes) => async (dispatch) => {
   dispatch({ type: types.ON_ADD_NOTE_START });
 
   await API.graphql(graphqlOperation(createNote, { input: note }))
