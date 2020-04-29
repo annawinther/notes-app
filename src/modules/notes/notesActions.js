@@ -23,10 +23,10 @@ export const fetchNotes = () => (dispatch) => {
     });
 };
 
-export const addNotes = (note) => (dispatch) => {
+export const addNotes = (note) => async (dispatch) => {
   dispatch({ type: types.ON_ADD_NOTE_START });
 
-  return API.graphql(graphqlOperation(createNote, { input: note }))
+  await API.graphql(graphqlOperation(createNote, { input: note }))
     .then(({ data }) => {
       dispatch({
         type: types.ON_ADD_NOTE_SUCCESS,
@@ -35,5 +35,20 @@ export const addNotes = (note) => (dispatch) => {
     })
     .catch((err) => {
       console.log('error adding note', err);
+    });
+};
+
+export const deleteNoteAction = (input) => async (dispatch) => {
+  dispatch({ type: types.ON_DELETE_NOTE_SUCCESS });
+
+  await API.graphql(graphqlOperation(deleteNote, { input }))
+    .then(() => {
+      dispatch(fetchNotes);
+    })
+    .catch((err) => {
+      dispatch({
+        type: types.ON_DELETE_NOTE_FAILURE,
+        payload: err.message,
+      });
     });
 };

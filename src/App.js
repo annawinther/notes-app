@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { withAuthenticator } from 'aws-amplify-react';
-import { API, graphqlOperation } from 'aws-amplify';
+// import { API, graphqlOperation } from 'aws-amplify';
 import { connect } from 'react-redux';
 import Notes from './components/Notes';
 import Form from './components/Form';
-import { fetchNotes, addNotes } from './modules/notes/notesActions';
-import { createNote, updateNote, deleteNote } from './graphql/mutations';
+import { fetchNotes, addNotes, deleteNoteAction } from './modules/notes/notesActions';
 
 import './App.css';
 
 const initialState = { id: null, name: '', description: '' };
 // const initialNotes = {notes: []}
 // eslint-disable-next-line no-shadow
-const App = ({ notes, fetchNotes, addNotes }) => {
+const App = ({ notes, fetchNotes, addNotes, deleteNoteAction }) => {
   // console.log('notes', notes);
   const [formState, setFormState] = useState(initialState);
   // const [notesState, setNotes] = useState(initialNotes);
@@ -36,18 +35,10 @@ const App = ({ notes, fetchNotes, addNotes }) => {
   };
 
 
-  const onDeleteNote = async (note) => {
+  const onDeleteNote = (note) => {
     const input = { id: note.id };
-    const data = notesArray.filter((n) => n.id !== note.id);
-    // setNotes( );
+    deleteNoteAction(input);
     fetchNotes();
-
-    try {
-      await API.graphql(graphqlOperation(deleteNote, { input }));
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log('error deleting note', err);
-    }
   };
 
   const onUpdateNote = (note) => {
@@ -108,4 +99,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   fetchNotes,
   addNotes,
+  deleteNoteAction,
 })(withAuthenticator(App));
