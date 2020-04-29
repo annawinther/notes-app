@@ -4,95 +4,102 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { connect } from 'react-redux';
 import Notes from './components/Notes';
 import Form from './components/Form';
-import { listNotes } from './graphql/queries';
+// import { listNotes } from './graphql/queries';
 import { createNote, updateNote, deleteNote } from './graphql/mutations';
-import { increment, decrement } from './modules/notes/notesActions';
+import { increment, decrement, fetchNotes } from './modules/notes/notesActions';
 
 import './App.css';
 
-
 const initialState = { id: null, name: '', description: '' };
-const initialNotes = { notes: [] };
+// const initialNotes = { notes: [] };
 
-// eslint-disable-next-line no-shadow
-const App = ({ count, increment, decrement }) => {
+const App = (props) => {
   const [formState, setFormState] = useState(initialState);
-  const [notesState, setNotes] = useState(initialNotes);
-  const [edit, setEdit] = useState(false);
+  // const [notesState, setNotes] = useState(initialNotes);
+  // const [edit, setEdit] = useState(false);
+  console.log('notes', props.count.notesArray);
+  const { count, fetchNotes } = props;
+  const { notesArray } = count; 
+  // const [testNotes, setTestNotes] = useState([]);
   const setInput = (key, value) => {
     setFormState({ ...formState, [key]: value });
   };
 
-  const fetchNotes = async () => {
-    try {
-      const { data: { listNotes: { items } } } = await API.graphql(graphqlOperation(listNotes));
-      setNotes({ notes: items });
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log('error fetching notes...', err);
-    }
-  };
+  // const fetchNotes = async () => {
+  //   try {
+  //     const { data: { listNotes: { items } } } = await API.graphql(graphqlOperation(listNotes));
+  //     setNotes({ notes: items });
+  //   } catch (err) {
+  //     // eslint-disable-next-line no-console
+  //     console.log('error fetching notes...', err);
+  //   }
+  // };
 
   useEffect(() => {
     fetchNotes();
+    // setTestNotes(notesArray)
   }, []);
 
   const onCreateNote = async () => {
-    if (!formState.name || !formState.description) return;
-    const note = { ...formState };
-    const newNotes = [note, ...notesState.notes];
-    setNotes({ notes: newNotes });
-    setFormState(initialState);
-    setEdit(false);
-    try {
-      await API.graphql(graphqlOperation(createNote, { input: note }));
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log('error creating todo', err);
-    }
+    console.log('add')
+    // if (!formState.name || !formState.description) return;
+    // const note = { ...formState };
+    // const newNotes = [note, ...notesState.notes];
+    // setNotes({ notes: newNotes });
+    // setFormState(initialState);
+    // setEdit(false);
+    // try {
+    //   await API.graphql(graphqlOperation(createNote, { input: note }));
+    // } catch (err) {
+    //   // eslint-disable-next-line no-console
+    //   console.log('error creating todo', err);
+    // }
   };
 
 
   const onDeleteNote = async (note) => {
-    const input = { id: note.id };
-    const data = notesState.notes.filter((n) => n.id !== note.id);
-    setNotes({ notes: data });
-    try {
-      await API.graphql(graphqlOperation(deleteNote, { input }));
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log('error deleting note', err);
-    }
+    console.log('delete');
+    // const input = { id: note.id };
+    // const data = notesState.notes.filter((n) => n.id !== note.id);
+    // setNotes({ notes: data });
+    // try {
+    //   await API.graphql(graphqlOperation(deleteNote, { input }));
+    // } catch (err) {
+    //   // eslint-disable-next-line no-console
+    //   console.log('error deleting note', err);
+    // }
   };
 
   const onUpdateNote = (note) => {
-    setEdit(true);
-    const updatedNote = {
-      id: note.id,
-      ...note,
-    };
-    setFormState(updatedNote);
+    console.log('edit');
+    // setEdit(true);
+    // const updatedNote = {
+    //   id: note.id,
+    //   ...note,
+    // };
+    // setFormState(updatedNote);
   };
 
   const handleSubmit = async (note) => {
-    const updatedNote = {
-      id: note.id,
-      name: note.name,
-      description: note.description,
-    };
-    const index = notesState.notes.findIndex((i) => i.id === note.id);
-    const notes = [...notesState.notes];
-    notes[index] = updatedNote;
-    setNotes({ notes });
-    setFormState(initialState);
-    setEdit(false);
+    // const updatedNote = {
+      console.log('submit edit')
+    //   id: note.id,
+    //   name: note.name,
+    //   description: note.description,
+    // };
+    // const index = notesState.notes.findIndex((i) => i.id === note.id);
+    // const notes = [...notesState.notes];
+    // notes[index] = updatedNote;
+    // setNotes({ notes });
+    // setFormState(initialState);
+    // setEdit(false);
 
-    try {
-      await API.graphql(graphqlOperation(updateNote, { input: updatedNote }));
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log('error updating note', err);
-    }
+    // try {
+    //   await API.graphql(graphqlOperation(updateNote, { input: updatedNote }));
+    // } catch (err) {
+    //   // eslint-disable-next-line no-console
+    //   console.log('error updating note', err);
+    // }
   };
 
   return (
@@ -100,10 +107,10 @@ const App = ({ count, increment, decrement }) => {
       <div>
         <h1>
           Redux Setup
-          {count.count}
+          {props.count.count}
         </h1>
-        <button type="submit" onClick={() => decrement()}>Decrement</button>
-        <button type="submit" onClick={() => increment()}>Increment</button>
+        <button type="submit" onClick={() => props.decrement()}>Decrement</button>
+        <button type="submit" onClick={() => props.increment()}>Increment</button>
       </div>
       <p>Notes</p>
       <Form
@@ -111,10 +118,11 @@ const App = ({ count, increment, decrement }) => {
         setInput={setInput}
         createNote={onCreateNote}
         handleSubmit={handleSubmit}
-        edit={edit}
+        // edit={edit}
       />
       <Notes
-        notes={notesState.notes}
+        notes={notesArray}
+        // notes={notes}
         deleteNote={onDeleteNote}
         updateNote={onUpdateNote}
       />
@@ -124,8 +132,11 @@ const App = ({ count, increment, decrement }) => {
 
 const mapStateToProps = (state) => ({
   count: state.count,
+  // notesArray: state.notesArray,
 });
 
 export default connect(mapStateToProps, {
-  increment, decrement,
+  increment,
+  decrement,
+  fetchNotes,
 })(withAuthenticator(App));

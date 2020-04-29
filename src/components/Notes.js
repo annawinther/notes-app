@@ -3,6 +3,7 @@ import Note from './Note';
 
 const Notes = ({ notes, deleteNote, updateNote }) => (
   <div>
+    {console.log('notes', notes)}
     {
         notes.map((note, index) => (
           <Note
