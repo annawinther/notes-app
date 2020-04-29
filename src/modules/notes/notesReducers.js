@@ -34,7 +34,7 @@ const noteReducer = (state = initialState, action) => {
     case types.ON_ADD_NOTE_SUCCESS:
       return {
         ...state,
-        addedNotes: action.payload,
+        notesArray: action.payload,
       };
     case types.ON_ADD_NOTE_FAILURE:
       return {
@@ -52,6 +52,22 @@ const noteReducer = (state = initialState, action) => {
         deletingNote: true,
       };
     case types.ON_DELETE_NOTE_FAILURE:
+      return {
+        ...state,
+        errors: action.payload,
+      };
+    case types.ON_UPDATE_NOTE_START:
+      return {
+        ...state,
+        loading: true,
+        isEditing: true,
+      };
+    case types.ON_UPDATE_NOTE_SUCCESS:
+      return {
+        ...state,
+        notesArray: action.payload,
+      };
+    case types.ON_UPDATE_NOTE_FAILURE:
       return {
         ...state,
         errors: action.payload,
