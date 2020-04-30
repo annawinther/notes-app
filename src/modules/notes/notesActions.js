@@ -41,15 +41,20 @@ export const addNotesAction = (note, newNotes) => async (dispatch) => {
 };
 
 export const deleteNoteAction = (input) => async (dispatch) => {
-  dispatch({ type: types.ON_DELETE_NOTE_SUCCESS });
-  try {
-    await API.graphql(graphqlOperation(deleteNote, { input }));
-  } catch (err) {
-    dispatch({
-      type: types.ON_DELETE_NOTE_FAILURE,
-      payload: err.message,
+  dispatch({ type: types.ON_DELETE_NOTE_START });
+  await API.graphql(graphqlOperation(deleteNote, { input }))
+    .then(({ data }) => {
+      dispatch({
+        type: types.ON_DELETE_NOTE_SUCCESS,
+        payload: data.deleteNote,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: types.ON_DELETE_NOTE_FAILURE,
+        payload: err.message,
+      });
     });
-  }
 };
 
 export const updateNoteAction = (updatedNote, allNotes) => async (dispatch) => {

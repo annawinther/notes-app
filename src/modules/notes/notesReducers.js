@@ -49,6 +49,7 @@ const noteReducer = (state = initialState, action) => {
       return {
         ...state,
         deletingNote: true,
+        notesArray: state.notesArray.filter((note) => note.id !== action.payload.id),
       };
     case types.ON_DELETE_NOTE_FAILURE:
       return {
