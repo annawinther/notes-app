@@ -1,4 +1,17 @@
-import * as types from './notesTypes';
+import {
+  ON_FETCH_NOTES_START,
+  ON_FETCH_NOTES_SUCCESS,
+  ON_FETCH_NOTES_FAILURE,
+  ON_ADD_NOTE_START,
+  ON_ADD_NOTE_SUCCESS,
+  ON_ADD_NOTE_FAILURE,
+  ON_DELETE_NOTE_START,
+  ON_DELETE_NOTE_SUCCESS,
+  ON_DELETE_NOTE_FAILURE,
+  ON_UPDATE_NOTE_START,
+  ON_UPDATE_NOTE_SUCCESS,
+  ON_UPDATE_NOTE_FAILURE,
+} from './notesTypes';
 
 const initialState = {
   notesArray: [],
@@ -10,59 +23,59 @@ const initialState = {
 
 const noteReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.ON_FETCH_NOTES_START:
+    case ON_FETCH_NOTES_START:
       return {
         ...state,
         loading: true,
       };
-    case types.ON_FETCH_NOTES_SUCCESS:
+    case ON_FETCH_NOTES_SUCCESS:
       return {
         ...state,
         notesArray: action.payload,
       };
-    case types.ON_FETCH_NOTES_FAILURE:
+    case ON_FETCH_NOTES_FAILURE:
       return {
         ...state,
         errors: action.payload,
       };
-    case types.ON_ADD_NOTE_START:
+    case ON_ADD_NOTE_START:
       return {
         ...state,
         loading: true,
       };
-    case types.ON_ADD_NOTE_SUCCESS:
+    case ON_ADD_NOTE_SUCCESS:
       return {
         ...state,
         notesArray: state.notesArray.concat(action.payload),
       };
-    case types.ON_ADD_NOTE_FAILURE:
+    case ON_ADD_NOTE_FAILURE:
       return {
         ...state,
         errors: action.payload,
       };
-    case types.ON_DELETE_NOTE_START:
+    case ON_DELETE_NOTE_START:
       return {
         ...state,
         loading: true,
       };
-    case types.ON_DELETE_NOTE_SUCCESS:
+    case ON_DELETE_NOTE_SUCCESS:
       return {
         ...state,
         deletingNote: true,
         notesArray: state.notesArray.filter((note) => note.id !== action.payload.id),
       };
-    case types.ON_DELETE_NOTE_FAILURE:
+    case ON_DELETE_NOTE_FAILURE:
       return {
         ...state,
         errors: action.payload,
       };
-    case types.ON_UPDATE_NOTE_START:
+    case ON_UPDATE_NOTE_START:
       return {
         ...state,
         loading: true,
         isEditing: true,
       };
-    case types.ON_UPDATE_NOTE_SUCCESS:
+    case ON_UPDATE_NOTE_SUCCESS:
       return {
         ...state,
         notesArray: state.notesArray.map((note) => {
@@ -73,7 +86,7 @@ const noteReducer = (state = initialState, action) => {
           } return note;
         }),
       };
-    case types.ON_UPDATE_NOTE_FAILURE:
+    case ON_UPDATE_NOTE_FAILURE:
       return {
         ...state,
         errors: action.payload,
