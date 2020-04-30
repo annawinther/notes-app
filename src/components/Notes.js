@@ -6,6 +6,7 @@ const Notes = ({
   notes, deleteNote, updateNote, loading, errors,
 }) => (
   <div>
+    <h1>Your Notes</h1>
     {loading || errors ? <Loader
       type="ThreeDots"
       color="black"

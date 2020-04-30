@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-// import { withAuthenticator } from 'aws-amplify-react';
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+import { Route, Switch, useHistory } from 'react-router';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 import { connect } from 'react-redux';
 import Notes from './components/Notes';
 import Form from './components/Form';
@@ -20,6 +20,7 @@ const App = ({
   const [formState, setFormState] = useState(initialState);
   const [edit, setEdit] = useState(false);
   const { notesArray, isLoading, errors } = notes;
+  const history = useHistory();
 
   const setInput = (key, value) => {
     setFormState({ ...formState, [key]: value });
@@ -34,6 +35,7 @@ const App = ({
     const note = { ...formState };
     setFormState(initialState);
     addNotesAction(note);
+    history.push('/');
   };
 
   const onDeleteNote = (note) => {
@@ -64,22 +66,26 @@ const App = ({
   return (
     <div className="container">
       <Naviagtion />
-      <AmplifySignOut />
-      <p>Notes</p>
-      <Form
-        formState={formState}
-        setInput={setInput}
-        createNote={onCreateNote}
-        handleSubmit={handleSubmit}
-        edit={edit}
-      />
-      <Notes
-        notes={notesArray}
-        loading={isLoading}
-        errors={errors}
-        deleteNote={onDeleteNote}
-        updateNote={onUpdateNote}
-      />
+      <Switch>
+        <Route path="/add">
+          <Form
+            formState={formState}
+            setInput={setInput}
+            createNote={onCreateNote}
+            handleSubmit={handleSubmit}
+            edit={edit}
+          />
+        </Route>
+        <Route exact path="/">
+          <Notes
+            notes={notesArray}
+            loading={isLoading}
+            errors={errors}
+            deleteNote={onDeleteNote}
+            updateNote={onUpdateNote}
+          />
+        </Route>
+      </Switch>
     </div>
   );
 };
