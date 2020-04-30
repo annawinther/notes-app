@@ -1,17 +1,23 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Auth } from 'aws-amplify';
 
 export default function Navigation() {
+  const onSignOut = () => {
+    Auth.signOut();
+  };
   return (
     <div>
       <ul className="nav justify-content-center">
         <li className="nav-item">
-          <a className="nav-link active" href="/">Home</a>
+          <Link className="nav-link active" to="/">Home</Link>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/">Add Note</a>
+          <Link className="nav-link" to="/add">Add Note</Link>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/">Sign Out</a>
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <Link className="nav-link active" onClick={() => onSignOut()}>Sign Out</Link>
         </li>
       </ul>
     </div>
