@@ -60,7 +60,7 @@ const App = ({
   };
 
   return (
-    <div className="App">
+    <div className="container">
       <p>Notes</p>
       <Form
         formState={formState}

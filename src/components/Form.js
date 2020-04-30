@@ -6,26 +6,35 @@ const Form = ({
   const { name, description } = formState;
 
   return (
-    <div>
-      <input
-        onChange={(e) => setInput('name', e.target.value)}
-        value={name}
-        placeholder="name"
-      />
-      <textarea
-        onChange={(e) => setInput('description', e.target.value)}
-        value={description}
-        placeholder="description"
-      />
+    <form>
+      {edit ? <h2>Update note</h2> : <h2>Add note</h2>}
+      <div className="form-group">
+        <input
+          className="form-control"
+          onChange={(e) => setInput('name', e.target.value)}
+          value={name}
+          placeholder="name"
+        />
+
+      </div>
+      <div className="form-group">
+        <textarea
+          className="form-control"
+          onChange={(e) => setInput('description', e.target.value)}
+          value={description}
+          placeholder="description"
+        />
+
+      </div>
       {
-          edit ? <button type="submit" onClick={() => handleSubmit(formState)}>Save</button>
+          edit ? <button type="button" className="btn btn-dark" onClick={() => handleSubmit(formState)}>Save</button>
             : (
-              <button type="submit" onClick={createNote}>
+              <button type="button" className="btn btn-dark" onClick={createNote}>
                 Create Note
               </button>
             )
        }
-    </div>
+    </form>
   );
 };
 
