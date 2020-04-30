@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { withAuthenticator } from 'aws-amplify-react';
+// import { withAuthenticator } from 'aws-amplify-react';
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { connect } from 'react-redux';
 import Notes from './components/Notes';
 import Form from './components/Form';
+import Naviagtion from './components/Navigation';
 import {
   fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction,
 } from './modules/notes/notesActions';
@@ -61,6 +63,8 @@ const App = ({
 
   return (
     <div className="container">
+      <Naviagtion />
+      <AmplifySignOut />
       <p>Notes</p>
       <Form
         formState={formState}
@@ -84,9 +88,9 @@ const mapStateToProps = (state) => ({
   notes: state.notes,
 });
 
-export default connect(mapStateToProps, {
+export default withAuthenticator(connect(mapStateToProps, {
   fetchNotesAction,
   addNotesAction,
   deleteNoteAction,
   updateNoteAction,
-})(withAuthenticator(App));
+})(App));
