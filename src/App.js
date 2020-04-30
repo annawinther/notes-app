@@ -39,7 +39,7 @@ const App = ({
   const onDeleteNote = (note) => {
     const input = { id: note.id };
     deleteNoteAction(input);
-    fetchNotesAction();
+    // fetchNotesAction();
   };
 
   const onUpdateNote = (note) => {
@@ -57,12 +57,9 @@ const App = ({
       name: note.name,
       description: note.description,
     };
-    const index = notesArray.findIndex((i) => i.id === note.id);
-    const allNotes = [...notesArray];
-    allNotes[index] = updatedNote;
     setFormState(initialState);
     setEdit(false);
-    updateNoteAction(updatedNote, allNotes);
+    updateNoteAction(updatedNote);
   };
 
   return (

@@ -65,7 +65,13 @@ const noteReducer = (state = initialState, action) => {
     case types.ON_UPDATE_NOTE_SUCCESS:
       return {
         ...state,
-        notesArray: action.payload,
+        notesArray: state.notesArray.map((note) => {
+          if (note.id === action.payload.id) {
+            return {
+              ...action.payload,
+            };
+          } return note;
+        }),
       };
     case types.ON_UPDATE_NOTE_FAILURE:
       return {

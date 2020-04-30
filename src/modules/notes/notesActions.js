@@ -57,14 +57,14 @@ export const deleteNoteAction = (input) => async (dispatch) => {
     });
 };
 
-export const updateNoteAction = (updatedNote, allNotes) => async (dispatch) => {
+export const updateNoteAction = (updatedNote) => async (dispatch) => {
   dispatch({ type: types.ON_UPDATE_NOTE_START });
 
   await API.graphql(graphqlOperation(updateNote, { input: updatedNote }))
-    .then(() => {
+    .then(({ data }) => {
       dispatch({
         type: types.ON_UPDATE_NOTE_SUCCESS,
-        payload: allNotes,
+        payload: data.updateNote,
       });
     })
     .catch((err) => {
