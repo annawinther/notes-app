@@ -14,7 +14,7 @@ const Notes = ({
       width={50}
       timeout={3000}
     /> || <span>{errors}</span> : (
-      notes.map((note, index) => (
+      notes.reverse().map((note, index) => (
         <Note
             // eslint-disable-next-line react/no-array-index-key
           key={index}
