@@ -15,9 +15,8 @@ import {
 
 const initialState = {
   notesArray: [],
-  loading: false,
+  isLoading: false,
   isEditing: false,
-  deletingNote: false,
   errors: null,
 };
 
@@ -26,11 +25,12 @@ const noteReducer = (state = initialState, action) => {
     case ON_FETCH_NOTES_START:
       return {
         ...state,
-        loading: true,
+        isLoading: true,
       };
     case ON_FETCH_NOTES_SUCCESS:
       return {
         ...state,
+        isLoading: false,
         notesArray: action.payload,
       };
     case ON_FETCH_NOTES_FAILURE:
@@ -41,43 +41,48 @@ const noteReducer = (state = initialState, action) => {
     case ON_ADD_NOTE_START:
       return {
         ...state,
-        loading: true,
+        isLoading: true,
       };
     case ON_ADD_NOTE_SUCCESS:
       return {
         ...state,
+        isLoading: false,
         notesArray: state.notesArray.concat(action.payload),
       };
     case ON_ADD_NOTE_FAILURE:
       return {
         ...state,
+        isLoading: false,
         errors: action.payload,
       };
     case ON_DELETE_NOTE_START:
       return {
         ...state,
-        loading: true,
+        isLoading: true,
       };
     case ON_DELETE_NOTE_SUCCESS:
       return {
         ...state,
-        deletingNote: true,
+        isLoading: false,
         notesArray: state.notesArray.filter((note) => note.id !== action.payload.id),
       };
     case ON_DELETE_NOTE_FAILURE:
       return {
         ...state,
+        isLoading: false,
         errors: action.payload,
       };
     case ON_UPDATE_NOTE_START:
       return {
         ...state,
-        loading: true,
+        isLoading: true,
         isEditing: true,
       };
     case ON_UPDATE_NOTE_SUCCESS:
       return {
         ...state,
+        isLoading: false,
+        isEditing: false,
         notesArray: state.notesArray.map((note) => {
           if (note.id === action.payload.id) {
             return {
@@ -89,6 +94,8 @@ const noteReducer = (state = initialState, action) => {
     case ON_UPDATE_NOTE_FAILURE:
       return {
         ...state,
+        isLoading: false,
+        isEditing: false,
         errors: action.payload,
       };
     default:

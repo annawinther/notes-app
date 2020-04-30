@@ -17,7 +17,7 @@ const App = ({
 }) => {
   const [formState, setFormState] = useState(initialState);
   const [edit, setEdit] = useState(false);
-  const { notesArray } = notes;
+  const { notesArray, isLoading, errors } = notes;
 
   const setInput = (key, value) => {
     setFormState({ ...formState, [key]: value });
@@ -25,7 +25,7 @@ const App = ({
 
   useEffect(() => {
     fetchNotesAction();
-  }, []);
+  }, [fetchNotesAction]);
 
   const onCreateNote = async () => {
     if (!formState.name || !formState.description) return;
@@ -71,6 +71,8 @@ const App = ({
       />
       <Notes
         notes={notesArray}
+        loading={isLoading}
+        errors={errors}
         deleteNote={onDeleteNote}
         updateNote={onUpdateNote}
       />
