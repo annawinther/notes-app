@@ -22,14 +22,14 @@ export const fetchNotesAction = () => (dispatch) => {
     });
 };
 
-export const addNotesAction = (note, newNotes) => async (dispatch) => {
+export const addNotesAction = (note) => async (dispatch) => {
   dispatch({ type: types.ON_ADD_NOTE_START });
 
   await API.graphql(graphqlOperation(createNote, { input: note }))
-    .then(() => {
+    .then(({ data }) => {
       dispatch({
         type: types.ON_ADD_NOTE_SUCCESS,
-        payload: newNotes,
+        payload: data.createNote,
       });
     })
     .catch((err) => {
@@ -42,6 +42,7 @@ export const addNotesAction = (note, newNotes) => async (dispatch) => {
 
 export const deleteNoteAction = (input) => async (dispatch) => {
   dispatch({ type: types.ON_DELETE_NOTE_START });
+
   await API.graphql(graphqlOperation(deleteNote, { input }))
     .then(({ data }) => {
       dispatch({

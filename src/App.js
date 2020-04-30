@@ -30,16 +30,13 @@ const App = ({
   const onCreateNote = async () => {
     if (!formState.name || !formState.description) return;
     const note = { ...formState };
-    const newNotes = [note, ...notesArray];
     setFormState(initialState);
-    addNotesAction(note, newNotes);
-    fetchNotesAction();
+    addNotesAction(note);
   };
 
   const onDeleteNote = (note) => {
     const input = { id: note.id };
     deleteNoteAction(input);
-    // fetchNotesAction();
   };
 
   const onUpdateNote = (note) => {

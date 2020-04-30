@@ -33,7 +33,7 @@ const noteReducer = (state = initialState, action) => {
     case types.ON_ADD_NOTE_SUCCESS:
       return {
         ...state,
-        notesArray: action.payload,
+        notesArray: state.notesArray.concat(action.payload),
       };
     case types.ON_ADD_NOTE_FAILURE:
       return {
