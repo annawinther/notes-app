@@ -8,7 +8,7 @@ const Note = ({ note, deleteNote, updateNote }) => {
 
   return (
     <div>
-      <SingleNoteStyled className="card m-3" style={{ width: '29rem' }}>
+      <SingleNoteStyled className="card m-3">
         {/* <div className="card-header">{name}</div> */}
         <div className="card-body">
           <h5 className="card-title">{name}</h5>
@@ -30,10 +30,19 @@ const Note = ({ note, deleteNote, updateNote }) => {
     </div>
   );
 };
+
+export default Note;
+
+
 const SingleNoteStyled = styled.div`
   // background: red;
   display: flex;
   flex-direction: row;
+  width: 18rem;
+  box-shadow: 5px 5px #888888;
+  height: 10rem;
+
+  overflow: auto;
 `;
 
 const IconsStyled = styled.div`
@@ -43,4 +52,3 @@ const IconsStyled = styled.div`
   justify-content: space-between;
   padding: 10px;
 `;
-export default Note;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import Notes from './components/Notes';
 import Form from './components/Form';
 import Naviagtion from './components/Navigation';
@@ -50,6 +51,7 @@ const App = ({
       ...note,
     };
     setFormState(updatedNote);
+    history.push('/add');
   };
 
   const handleSubmit = async (note) => {
@@ -61,10 +63,11 @@ const App = ({
     setFormState(initialState);
     setEdit(false);
     updateNoteAction(updatedNote);
+    history.push('/');
   };
 
   return (
-    <div className="container">
+    <AppContainerStyled>
       <Naviagtion />
       <Switch>
         <Route path="/add">
@@ -86,7 +89,7 @@ const App = ({
           />
         </Route>
       </Switch>
-    </div>
+    </AppContainerStyled>
   );
 };
 
@@ -100,3 +103,10 @@ export default withAuthenticator(connect(mapStateToProps, {
   deleteNoteAction,
   updateNoteAction,
 })(App));
+
+const AppContainerStyled = styled.div`
+  // background: red;
+  justify-content: center;
+  // display: flex;
+  // flex-direction: row;
+`;
