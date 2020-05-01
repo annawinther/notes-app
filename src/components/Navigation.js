@@ -17,7 +17,7 @@ export default function Navigation() {
         </li>
         <li className="nav-item">
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <Link className="nav-link active" onClick={() => onSignOut()}>Sign Out</Link>
+          <Link className="nav-link active" to="#" onClick={() => onSignOut()}>Sign Out</Link>
         </li>
       </ul>
     </div>
