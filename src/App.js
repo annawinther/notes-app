@@ -1,65 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { withAuthenticator } from 'aws-amplify-react';
-import { API, graphqlOperation } from 'aws-amplify';
+import { connect } from 'react-redux';
 import Notes from './components/Notes';
 import Form from './components/Form';
-import { listNotes } from './graphql/queries';
-import { createNote, updateNote, deleteNote } from './graphql/mutations';
+import {
+  fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction,
+} from './modules/notes/notesActions';
 
 import './App.css';
 
-
 const initialState = { id: null, name: '', description: '' };
-const initialNotes = { notes: [] };
 
-const App = () => {
+const App = ({
+  // eslint-disable-next-line no-shadow
+  notes, fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction,
+}) => {
   const [formState, setFormState] = useState(initialState);
-  const [notesState, setNotes] = useState(initialNotes);
   const [edit, setEdit] = useState(false);
+  const { notesArray, isLoading, errors } = notes;
+
   const setInput = (key, value) => {
     setFormState({ ...formState, [key]: value });
   };
 
-  const fetchNotes = async () => {
-    try {
-      const { data: { listNotes: { items } } } = await API.graphql(graphqlOperation(listNotes));
-      setNotes({ notes: items });
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log('error fetching notes...', err);
-    }
-  };
-
   useEffect(() => {
-    fetchNotes();
-  }, []);
+    fetchNotesAction();
+  }, [fetchNotesAction]);
 
   const onCreateNote = async () => {
     if (!formState.name || !formState.description) return;
     const note = { ...formState };
-    const newNotes = [note, ...notesState.notes];
-    setNotes({ notes: newNotes });
     setFormState(initialState);
-    setEdit(false);
-    try {
-      await API.graphql(graphqlOperation(createNote, { input: note }));
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log('error creating todo', err);
-    }
+    addNotesAction(note);
   };
 
-
-  const onDeleteNote = async (note) => {
+  const onDeleteNote = (note) => {
     const input = { id: note.id };
-    const data = notesState.notes.filter((n) => n.id !== note.id);
-    setNotes({ notes: data });
-    try {
-      await API.graphql(graphqlOperation(deleteNote, { input }));
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log('error deleting note', err);
-    }
+    deleteNoteAction(input);
   };
 
   const onUpdateNote = (note) => {
@@ -77,19 +54,9 @@ const App = () => {
       name: note.name,
       description: note.description,
     };
-    const index = notesState.notes.findIndex((i) => i.id === note.id);
-    const notes = [...notesState.notes];
-    notes[index] = updatedNote;
-    setNotes({ notes });
     setFormState(initialState);
     setEdit(false);
-
-    try {
-      await API.graphql(graphqlOperation(updateNote, { input: updatedNote }));
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log('error updating note', err);
-    }
+    updateNoteAction(updatedNote);
   };
 
   return (
@@ -103,7 +70,9 @@ const App = () => {
         edit={edit}
       />
       <Notes
-        notes={notesState.notes}
+        notes={notesArray}
+        loading={isLoading}
+        errors={errors}
         deleteNote={onDeleteNote}
         updateNote={onUpdateNote}
       />
@@ -111,4 +80,13 @@ const App = () => {
   );
 };
 
-export default withAuthenticator(App);
+const mapStateToProps = (state) => ({
+  notes: state.notes,
+});
+
+export default connect(mapStateToProps, {
+  fetchNotesAction,
+  addNotesAction,
+  deleteNoteAction,
+  updateNoteAction,
+})(withAuthenticator(App));
