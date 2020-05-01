@@ -32,12 +32,12 @@ const Notes = ({
 );
 
 const NotesContainerStyled = styled.div`
-// background: blue;
-display: flex;
-flex-direction: row;
-max-width: 100%;
-flex-wrap: wrap;
-justify-content: center;
+// // background: blue;
+// display: flex;
+// flex-direction: row;
+// max-width: 100%;
+// flex-wrap: wrap;
+// justify-content: center;
 `;
 
 const H1 = styled.h1`

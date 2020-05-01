@@ -7,14 +7,10 @@ const Note = ({ note, deleteNote, updateNote }) => {
   const { name, description } = note;
 
   return (
-    <div>
-      <SingleNoteStyled className="card m-3">
-        {/* <div className="card-header">{name}</div> */}
-        <div className="card-body">
-          <h5 className="card-title">{name}</h5>
-          <p className="card-text">{description}</p>
-        </div>
-        <IconsStyled>
+    <ul className="list-group">
+      <li className="list-group-item d-flex justify-content-between align-items-center">
+        {name}
+        <span className="badge badgebadge-pill">
           <FaTimes
             onClick={() => deleteNote(note)}
             color="red"
@@ -25,30 +21,11 @@ const Note = ({ note, deleteNote, updateNote }) => {
             color="black"
             size={17}
           />
-        </IconsStyled>
-      </SingleNoteStyled>
-    </div>
+        </span>
+      </li>
+      {/* <li className="list-group-item">{description}</li> */}
+    </ul>
   );
 };
 
 export default Note;
-
-
-const SingleNoteStyled = styled.div`
-  // background: red;
-  display: flex;
-  flex-direction: row;
-  width: 18rem;
-  box-shadow: 5px 5px #888888;
-  height: 10rem;
-
-  overflow: auto;
-`;
-
-const IconsStyled = styled.div`
-  // background: blue;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 10px;
-`;
