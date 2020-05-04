@@ -18,9 +18,10 @@ const Notes = ({
       /> || <span>{errors}</span> : (
         notes.reverse().map((note, index) => (
           <Note
-            // eslint-disable-next-line react/no-array-index-key
+              // eslint-disable-next-line react/no-array-index-key
             key={index}
             note={note}
+            index={index}
             deleteNote={deleteNote}
             updateNote={updateNote}
             loading={loading}
