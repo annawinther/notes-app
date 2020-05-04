@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { MdEdit } from 'react-icons/md';
+import { MdEdit, MdKeyboardArrowDown } from 'react-icons/md';
 import styled from 'styled-components';
 
 const Note = ({
-  note, deleteNote, updateNote
+  note, deleteNote, updateNote,
 }) => {
   const { name, description } = note;
   const [open, setOpen] = useState(false);
@@ -19,28 +19,51 @@ const Note = ({
 
   return (
     <ul className="list-group">
-      <li
-        className="list-group-item d-flex justify-content-between align-items-center"
+      <ListItems
+        className="list-group-item border-bottom-0 d-flex justify-content-between align-items-center"
         onClick={() => toggleOpen()}
       >
-        {name}
+        <span>
+          <MdKeyboardArrowDown />
+          {' '}
+          {name}
+          {' '}
+          <MdEdits
+            onClick={() => updateNote(note)}
+            size={17}
+          />
+        </span>
+
         <span className="badge badgebadge-pill">
           <FaTimes
             onClick={() => deleteNote(note)}
-            color="red"
-            size={17}
-          />
-          <MdEdit
-            onClick={() => updateNote(note)}
             color="black"
             size={17}
           />
         </span>
-      </li>
-      {open ? (<div>{description}</div>) : null}
-      {/* <li className="list-group-item">{description}</li> */}
+      </ListItems>
+      {open ? (
+        <li className="list-group-item d-flex align-items-center">
+          <p>
+            {description}
+          </p>
+        </li>
+      ) : null}
     </ul>
   );
 };
 
 export default Note;
+
+const ListItems = styled.li`
+    // background: red;  
+    //   .list-group-items:last-child{
+    //     // background: blue;
+    //     border: 1px solid red
+    //   }
+`;
+
+const MdEdits = styled(MdEdit)`
+  color: black;
+  margin-left: 5px;
+`;

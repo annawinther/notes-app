@@ -67,7 +67,7 @@ const App = ({
   };
 
   return (
-    <AppContainerStyled>
+    <AppContainerStyled className="container">
       <Naviagtion />
       <Switch>
         <Route path="/add">
