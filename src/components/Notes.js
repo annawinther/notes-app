@@ -1,16 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import Loader from 'react-loader-spinner';
-import { Link } from 'react-router-dom';
 import Note from './Note';
 
 const Notes = ({
-  notes, deleteNote, updateNote, loading, errors,
+  notes, deleteNote, updateNote, loading, errors, onAddingNote,
 }) => (
   <div>
     <TopStyled>
       <H1>Your Notes</H1>
-      <Link className="nav-link" to="/add">Add Note</Link>
+      <Button type="button" className="btn" onClick={() => onAddingNote()}>Add Note</Button>
     </TopStyled>
     <NotesContainerStyled>
       {loading || errors ? <Loader
@@ -46,13 +45,27 @@ const NotesContainerStyled = styled.div`
 `;
 
 const H1 = styled.h1`
-text-align: center;
+// text-align: center;
 `;
-
+const Button = styled.button`
+background-color: #FF8C00;
+// border: 1px solid black;
+text-align: left;
+margin-bottom: 0.5rem;
+// padding: 1rem;
+color: white;
+height: 2.5rem;
+&:hover{
+  background-color: #FFA500;
+  border: 1px solid white;
+  color: white;
+}
+`;
 const TopStyled = styled.div`
     // background: red;
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
+    margin-bottom: 1rem
 `;
 
 export default Notes;

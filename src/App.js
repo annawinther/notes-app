@@ -37,7 +37,11 @@ const App = ({
     history.push('/');
   };
 
-  const onCreateNote = async () => {
+  const onAddingNote = () => {
+    history.push('/form');
+  };
+
+  const onCreateNote = () => {
     if (!formState.name || !formState.description) return;
     const note = { ...formState };
     setFormState(initialState);
@@ -93,6 +97,7 @@ const App = ({
             errors={errors}
             deleteNote={onDeleteNote}
             updateNote={onUpdateNote}
+            onAddingNote={onAddingNote}
           />
         </Route>
       </Switch>
