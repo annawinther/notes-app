@@ -118,8 +118,5 @@ export default withAuthenticator(connect(mapStateToProps, {
 })(App));
 
 const AppContainerStyled = styled.div`
-  // background: red;
-  justify-content: center;
-  // display: flex;
-  // flex-direction: row;
+
 `;

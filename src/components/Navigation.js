@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
-import styled from 'styled-components';
+import { NavBar } from '../styles';
 
 const Navigation = () => {
   const onSignOut = () => {
@@ -22,16 +22,5 @@ const Navigation = () => {
   );
 };
 
-const NavBar = styled.ul`
-  background: #FF8C00;
-  list-style-type: none;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-
-  .nav-link {
-    color: white;
-  }
-`;
 
 export default Navigation;

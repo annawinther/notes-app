@@ -1,5 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
+import {
+  ButtonsDiv, FormStyled, Button, TopStyled, CreateSaveBtn,
+} from '../styles';
 
 const Form = ({
   formState, setInput, createNote, handleSubmit, edit, onCancel,
@@ -8,7 +10,11 @@ const Form = ({
 
   return (
     <FormStyled>
-      {edit ? <h1>Update note</h1> : <h1>Add note</h1>}
+      <TopStyled>
+        {edit ? <h1>Update note</h1> : <h1>Add note</h1>}
+        <Button type="button" className="btn" onClick={onCancel}> Cancel </Button>
+      </TopStyled>
+
       <div className="form-group">
         <input
           className="form-control"
@@ -28,46 +34,17 @@ const Form = ({
 
       </div>
       <ButtonsDiv>
-        <Button type="button" className="btn" onClick={onCancel}> Cancel </Button>
-
         {
-          edit ? <Button type="button" className="btn" onClick={() => handleSubmit(formState)}>Save</Button>
+          edit ? <CreateSaveBtn type="button" className="btn" onClick={() => handleSubmit(formState)}>Save</CreateSaveBtn>
             : (
-              <Button type="button" className="btn" onClick={createNote}>
+              <CreateSaveBtn type="button" className="btn" onClick={createNote}>
                 Create
-              </Button>
+              </CreateSaveBtn>
             )
-          }
+        }
       </ButtonsDiv>
     </FormStyled>
   );
 };
 
 export default Form;
-
-const ButtonsDiv = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-content: center;
-  `;
-
-const FormStyled = styled.form`
-  text-align: center;
-  
-  .form-group {
-    width: 50%;
-    margin: 0 auto 2rem;
-    margin-top: 2rem;
-  }
-`;
-
-const Button = styled.button`
- background-color: #FF8C00;
- color: white;
- &:hover{
-   background-color: #FFA500;
-   color: white;
- }
-`;

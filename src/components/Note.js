@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { FaTimes } from 'react-icons/fa';
-import { MdEdit, MdKeyboardArrowDown } from 'react-icons/md';
-import styled from 'styled-components';
+import {
+  ToggleIcon, DeleteIcon, EditIcon, ListItems,
+} from '../styles';
 
 const Note = ({
   note, deleteNote, updateNote,
@@ -65,36 +65,3 @@ const Note = ({
 };
 
 export default Note;
-
-const ListItems = styled.ul`
-    border-bottom: 1px solid #e3e3e3;
-    &:nth-child(1){ 
-      border-top: 1px solid  #e3e3e3;
-    }
-`;
-
-const EditIcon = styled(MdEdit)`
-  color: grey;
-  margin-left: 0.3rem;
-  &:hover{
-    cursor: pointer;
-  }
-`;
-
-const DeleteIcon = styled(FaTimes)`
-  color: grey;
-  &:hover{
-    cursor: pointer;
-  }
-`;
-
-const ToggleIcon = styled(MdKeyboardArrowDown)`
-  color: grey;
-  margin-right: 0.5rem;
-  will-change: transform, opacity;
-  transition: 0.8s;
-  transform: ${(props) => (props.rotate ? 'rotate(180deg)' : '')};
-  &:hover{
-    cursor: pointer;
-  }
-`;

@@ -1,7 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
 import Loader from 'react-loader-spinner';
 import Note from './Note';
+import {
+  NotesContainerStyled, Button, TopStyled,
+} from '../styles';
 
 const Notes = ({
   notes, deleteNote, updateNote, loading, errors, history,
@@ -34,30 +36,5 @@ const Notes = ({
     </NotesContainerStyled>
   </div>
 );
-
-const NotesContainerStyled = styled.div`
-  padding-left: 2rem;
-  padding-right: 2rem;
-`;
-
-const Button = styled.button`
-background-color: #FF8C00;
-text-align: left;
-// margin-bottom: 0.5rem;
-color: white;
-height: 2.5rem;
-&:hover{
-  background-color: #FFA500;
-  border: 1px solid white;
-  color: white;
-}
-`;
-const TopStyled = styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin: 2rem 0 2rem 0;
-    padding-left: 2rem;
-    padding-right: 2rem
-`;
 
 export default Notes;
