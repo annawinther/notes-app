@@ -1,13 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import Loader from 'react-loader-spinner';
+import { Link } from 'react-router-dom';
 import Note from './Note';
 
 const Notes = ({
   notes, deleteNote, updateNote, loading, errors,
 }) => (
   <div>
-    <H1>Your Notes</H1>
+    <TopStyled>
+      <H1>Your Notes</H1>
+      <Link className="nav-link" to="/add">Add Note</Link>
+    </TopStyled>
     <NotesContainerStyled>
       {loading || errors ? <Loader
         type="ThreeDots"
@@ -43,6 +47,12 @@ const NotesContainerStyled = styled.div`
 
 const H1 = styled.h1`
 text-align: center;
+`;
+
+const TopStyled = styled.div`
+    // background: red;
+    display: flex;
+    justify-content: space-between
 `;
 
 export default Notes;

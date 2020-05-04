@@ -12,9 +12,9 @@ export default function Navigation() {
         <li className="nav-item">
           <Link className="nav-link active" to="/">Home</Link>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <Link className="nav-link" to="/add">Add Note</Link>
-        </li>
+        </li> */}
         <li className="nav-item">
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <Link className="nav-link active" to="#" onClick={() => onSignOut()}>Sign Out</Link>
