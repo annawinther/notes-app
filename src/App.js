@@ -31,6 +31,12 @@ const App = ({
     fetchNotesAction();
   }, [fetchNotesAction]);
 
+  const onCancel = () => {
+    setFormState(initialState);
+    setEdit(false);
+    history.push('/');
+  };
+
   const onCreateNote = async () => {
     if (!formState.name || !formState.description) return;
     const note = { ...formState };
@@ -51,7 +57,7 @@ const App = ({
       ...note,
     };
     setFormState(updatedNote);
-    history.push('/add');
+    history.push('/form');
   };
 
   const handleSubmit = async (note) => {
@@ -70,12 +76,13 @@ const App = ({
     <AppContainerStyled className="container">
       <Naviagtion />
       <Switch>
-        <Route path="/add">
+        <Route path="/form">
           <Form
             formState={formState}
             setInput={setInput}
             createNote={onCreateNote}
             handleSubmit={handleSubmit}
+            onCancel={onCancel}
             edit={edit}
           />
         </Route>
