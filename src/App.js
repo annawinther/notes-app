@@ -37,9 +37,9 @@ const App = ({
     history.push('/');
   };
 
-  const onAddingNote = () => {
-    history.push('/form');
-  };
+  // const onAddingNote = () => {
+  //   history.push('/form');
+  // };
 
   const onCreateNote = () => {
     if (!formState.name || !formState.description) return;
@@ -77,7 +77,7 @@ const App = ({
   };
 
   return (
-    <AppContainerStyled className="container">
+    <AppContainerStyled>
       <Naviagtion />
       <Switch>
         <Route path="/form">
@@ -97,7 +97,8 @@ const App = ({
             errors={errors}
             deleteNote={onDeleteNote}
             updateNote={onUpdateNote}
-            onAddingNote={onAddingNote}
+            // onAddingNote={onAddingNote}
+            history={history}
           />
         </Route>
       </Switch>

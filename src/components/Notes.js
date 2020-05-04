@@ -4,12 +4,12 @@ import Loader from 'react-loader-spinner';
 import Note from './Note';
 
 const Notes = ({
-  notes, deleteNote, updateNote, loading, errors, onAddingNote,
+  notes, deleteNote, updateNote, loading, errors, history,
 }) => (
   <div>
     <TopStyled>
-      <H1>Your Notes</H1>
-      <Button type="button" className="btn" onClick={() => onAddingNote()}>Add Note</Button>
+      <h1>Your Notes</h1>
+      <Button type="button" className="btn" onClick={() => history.push('/form')}>Add Note</Button>
     </TopStyled>
     <NotesContainerStyled>
       {loading || errors ? <Loader
@@ -36,23 +36,14 @@ const Notes = ({
 );
 
 const NotesContainerStyled = styled.div`
-// // background: blue;
-// display: flex;
-// flex-direction: row;
-// max-width: 100%;
-// flex-wrap: wrap;
-// justify-content: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
 `;
 
-const H1 = styled.h1`
-// text-align: center;
-`;
 const Button = styled.button`
 background-color: #FF8C00;
-// border: 1px solid black;
 text-align: left;
-margin-bottom: 0.5rem;
-// padding: 1rem;
+// margin-bottom: 0.5rem;
 color: white;
 height: 2.5rem;
 &:hover{
@@ -62,10 +53,11 @@ height: 2.5rem;
 }
 `;
 const TopStyled = styled.div`
-    // background: red;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 1rem
+    margin: 2rem 0 2rem 0;
+    padding-left: 2rem;
+    padding-right: 2rem
 `;
 
 export default Notes;
