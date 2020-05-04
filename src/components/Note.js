@@ -8,6 +8,7 @@ const Note = ({
 }) => {
   const { name, description } = note;
   const [open, setOpen] = useState(false);
+  const [rotate, setRotate] = useState(false);
 
   const toggleOpen = () => {
     if (open) {
@@ -16,54 +17,82 @@ const Note = ({
       setOpen(true);
     }
   };
+  const rotateClick = () => {
+    if (rotate) {
+      setRotate(false);
+    } else {
+      setRotate(true);
+    }
+  };
 
   return (
-    <ul className="list-group">
-      <ListItems
-        className="list-group-item border-bottom-0 d-flex justify-content-between align-items-center"
-        onClick={() => toggleOpen()}
+    <ListItems className="list-group">
+      <li
+        className="list-group-item border-0 d-flex justify-content-between align-items-center"
+        onClick={() => { toggleOpen(); rotateClick(); }}
       >
         <span>
-          <MdKeyboardArrowDown />
+          <ToggleIcon
+            rotate={rotate ? rotate.toString() : undefined}
+            size={17}
+          />
           {' '}
           {name}
           {' '}
-          <MdEdits
+          <EditIcon
             onClick={() => updateNote(note)}
-            size={17}
+            size={13}
           />
         </span>
 
         <span className="badge badgebadge-pill">
-          <FaTimes
+          <DeleteIcon
             onClick={() => deleteNote(note)}
-            color="black"
-            size={17}
+            size={15}
           />
         </span>
-      </ListItems>
+      </li>
       {open ? (
-        <li className="list-group-item d-flex align-items-center">
+        <li className="list-group-item d-flex border-0">
           <p>
             {description}
           </p>
         </li>
       ) : null}
-    </ul>
+    </ListItems>
   );
 };
 
 export default Note;
 
-const ListItems = styled.li`
-    // background: red;  
-    //   .list-group-items:last-child{
-    //     // background: blue;
-    //     border: 1px solid red
-    //   }
+const ListItems = styled.ul`
+    border-bottom: 1px solid black;
+    // &:nth-child(1){ 
+    //   // color: red;
+    //   border-top: 1px solid black;
+    // }
 `;
 
-const MdEdits = styled(MdEdit)`
+const EditIcon = styled(MdEdit)`
   color: black;
-  margin-left: 5px;
+  margin-left: 0.3rem;
+  &:hover{
+    cursor: pointer;
+  }
+`;
+
+const DeleteIcon = styled(FaTimes)`
+  color: black;
+  &:hover{
+    cursor: pointer;
+  }
+`;
+
+const ToggleIcon = styled(MdKeyboardArrowDown)`
+  color: black;
+  margin-right: 0.5rem;
+  transform: ${(props) => (props.rotate ? 'rotate(180deg)' : '')};
+  &:hover{
+    cursor: pointer;
+  }
 `;
