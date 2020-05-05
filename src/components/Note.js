@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  ToggleIcon, DeleteIcon, EditIcon, ListItems,
+  ToggleIcon, DeleteIcon, EditIcon, ListItems, DescriptionStyled, TitleStyled,
 } from '../styles';
 
 const Note = ({
@@ -32,7 +32,7 @@ const Note = ({
         className="list-group-item border-0 d-flex justify-content-between align-items-center"
         onClick={() => { toggleOpen(); rotateClick(); }}
       >
-        <span>
+        <TitleStyled>
           <ToggleIcon
             rotate={rotate ? rotate.toString() : undefined}
             size={17}
@@ -44,7 +44,7 @@ const Note = ({
             onClick={() => updateNote(note)}
             size={13}
           />
-        </span>
+        </TitleStyled>
 
         <span className="badge badgebadge-pill">
           <DeleteIcon
@@ -55,9 +55,9 @@ const Note = ({
       </li>
       {open ? (
         <li className="list-group-item d-flex border-0">
-          <p>
+          <DescriptionStyled>
             {description}
-          </p>
+          </DescriptionStyled>
         </li>
       ) : null}
     </ListItems>

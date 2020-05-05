@@ -6,7 +6,9 @@ import styled from 'styled-components';
 // app styles
 
 export const AppContainerStyled = styled.div`
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export const LoadButtonDiv = styled.div`
@@ -25,13 +27,14 @@ export const NotesContainerStyled = styled.div`
 `;
 
 export const Button = styled.button`
-background-color: #FF8C00;
+background-color: #2F2E2F ;
 text-align: left;
 // margin-bottom: 0.5rem;
 color: white;
 height: 2.5rem;
 &:hover{
-  background-color: #FFA500;
+  transition: 0.7s;
+  background-color: #4A494A;
   border: 1px solid white;
   color: white;
 }
@@ -45,6 +48,15 @@ export const TopStyled = styled.div`
 `;
 
 // note styles
+
+export const TitleStyled = styled.span`
+  font-weight: 500;
+  color: #2F2E2F;
+`;
+
+export const DescriptionStyled = styled.p`
+  margin-left: 2rem;
+`;
 
 export const ListItems = styled.ul`
     border-bottom: 1px solid #e3e3e3;
@@ -72,7 +84,7 @@ export const ToggleIcon = styled(MdKeyboardArrowDown)`
   color: grey;
   margin-right: 0.5rem;
   will-change: transform, opacity;
-  transition: 0.8s;
+  transition: 0.4s;
   transform: ${(props) => (props.rotate ? 'rotate(180deg)' : '')};
   &:hover{
     cursor: pointer;
@@ -105,7 +117,7 @@ export const CreateSaveBtn = styled(Button)`
 // Navigation styling
 
 export const NavBar = styled.ul`
-  background: #FF8C00;
+  background: #2F2E2F;
   list-style-type: none;
   display: flex;
   flex-direction: row;
