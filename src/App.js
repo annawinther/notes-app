@@ -40,11 +40,7 @@ const App = ({
   };
 
   const onLoadmoreNotes = (token) => {
-    if (token === null) {
-      alert('There is nothing left to load!');
-    } else {
-      fetchMoreNotes(token);
-    }
+    fetchMoreNotes(token);
   };
   // const onAddingNote = () => {
   //   history.push('/form');
@@ -110,9 +106,12 @@ const App = ({
             history={history}
           />
           {' '}
-          <LoadButtonDiv>
-            <Button type="button" className="btn" onClick={() => onLoadmoreNotes(nextToken)}>Load more</Button>
-          </LoadButtonDiv>
+          { nextToken === null ? ''
+            : (
+              <LoadButtonDiv>
+                <Button type="button" className="btn" onClick={() => onLoadmoreNotes(nextToken)}>Load more</Button>
+              </LoadButtonDiv>
+            )}
         </Route>
       </Switch>
     </AppContainerStyled>

@@ -41,7 +41,7 @@ export const fetchMoreNotes = (nextToken) => (dispatch) => {
   //   alert('There is nothing left to load!')
   //   return
   // } else {
-  return API.graphql(graphqlOperation(listNotes, { nextToken }))
+  return API.graphql(graphqlOperation(listNotes, { nextToken, limit: 3 }))
     .then(({ data }) => {
       dispatch({
         type: ON_FETCH_MORE_NOTES_SUCCESS,
