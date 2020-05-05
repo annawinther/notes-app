@@ -25,7 +25,7 @@ const Form = ({
           className="form-control"
           onChange={(e) => setInput('name', e.target.value)}
           value={name}
-          placeholder="title"
+          placeholder="Title"
         />
 
       </div>
@@ -34,7 +34,7 @@ const Form = ({
           className="form-control"
           onChange={(e) => setInput('description', e.target.value)}
           value={description}
-          placeholder="description"
+          placeholder="Description"
         />
 
       </div>
