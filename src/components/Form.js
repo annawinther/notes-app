@@ -1,4 +1,5 @@
 import React from 'react';
+import { MdClear } from 'react-icons/md';
 import {
   ButtonsDiv, FormStyled, Button, TopStyled, CreateSaveBtn,
 } from '../styles';
@@ -12,7 +13,11 @@ const Form = ({
     <FormStyled>
       <TopStyled>
         {edit ? <h1>Update note</h1> : <h1>Add note</h1>}
-        <Button type="button" className="btn" onClick={onCancel}> Cancel </Button>
+        <Button type="button" className="btn" onClick={onCancel}>
+          <MdClear />
+          {' '}
+          Cancel
+        </Button>
       </TopStyled>
 
       <div className="form-group">

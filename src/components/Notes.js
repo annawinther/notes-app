@@ -1,5 +1,6 @@
 import React from 'react';
 import Loader from 'react-loader-spinner';
+import { MdAdd } from 'react-icons/md';
 import Note from './Note';
 import {
   NotesContainerStyled, Button, TopStyled,
@@ -11,7 +12,11 @@ const Notes = ({
   <div>
     <TopStyled>
       <h1>Your Notes</h1>
-      <Button type="button" className="btn" onClick={() => history.push('/form')}>Add Note</Button>
+      <Button type="button" className="btn" onClick={() => history.push('/form')}>
+        <MdAdd />
+        {' '}
+        Add Note
+      </Button>
     </TopStyled>
     <NotesContainerStyled>
       {loading || errors ? <Loader
