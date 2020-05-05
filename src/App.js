@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 import Notes from './components/Notes';
 import Form from './components/Form';
 import Naviagtion from './components/Navigation';
+import { AppContainerStyled, Button, LoadButtonDiv } from './styles';
 import {
   fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction, fetchMoreNotes,
 } from './modules/notes/notesActions';
@@ -88,8 +88,6 @@ const App = ({
   return (
     <AppContainerStyled>
       <Naviagtion />
-      <button type="button" onClick={() => onLoadmoreNotes(nextToken)}>Load more</button>
-      {}
       <Switch>
         <Route path="/form">
           <Form
@@ -111,6 +109,10 @@ const App = ({
             // onAddingNote={onAddingNote}
             history={history}
           />
+          {' '}
+          <LoadButtonDiv>
+            <Button type="button" className="btn" onClick={() => onLoadmoreNotes(nextToken)}>Load more</Button>
+          </LoadButtonDiv>
         </Route>
       </Switch>
     </AppContainerStyled>
@@ -128,7 +130,3 @@ export default withAuthenticator(connect(mapStateToProps, {
   updateNoteAction,
   fetchMoreNotes,
 })(App));
-
-const AppContainerStyled = styled.div`
-
-`;

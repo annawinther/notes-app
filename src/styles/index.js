@@ -2,6 +2,21 @@ import { FaTimes } from 'react-icons/fa';
 import { MdEdit, MdKeyboardArrowDown } from 'react-icons/md';
 import styled from 'styled-components';
 
+
+// app styles
+
+export const AppContainerStyled = styled.div`
+
+`;
+
+export const LoadButtonDiv = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 2rem;
+`;
+
 // notes styles
 
 export const NotesContainerStyled = styled.div`
