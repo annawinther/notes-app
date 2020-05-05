@@ -11,6 +11,7 @@ import {
   ON_UPDATE_NOTE_START,
   ON_UPDATE_NOTE_SUCCESS,
   ON_UPDATE_NOTE_FAILURE,
+  ON_FETCH_MORE_NOTES_SUCCESS,
 } from './notesTypes';
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   isLoading: false,
   isEditing: false,
   errors: null,
+  nextToken: null,
 };
 
 const noteReducer = (state = initialState, action) => {
@@ -31,12 +33,20 @@ const noteReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        notesArray: action.payload,
+        notesArray: action.payload.items,
+        nextToken: action.payload.nextToken,
       };
     case ON_FETCH_NOTES_FAILURE:
       return {
         ...state,
         errors: action.payload,
+      };
+    case ON_FETCH_MORE_NOTES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        notesArray: state.notesArray.concat(action.payload.items),
+        nextToken: action.payload.nextToken,
       };
     case ON_ADD_NOTE_START:
       return {

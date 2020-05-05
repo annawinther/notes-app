@@ -7,7 +7,7 @@ import Notes from './components/Notes';
 import Form from './components/Form';
 import Naviagtion from './components/Navigation';
 import {
-  fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction,
+  fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction, fetchMoreNotes,
 } from './modules/notes/notesActions';
 
 import './App.css';
@@ -16,11 +16,13 @@ const initialState = { id: null, name: '', description: '' };
 
 const App = ({
   // eslint-disable-next-line no-shadow
-  notes, fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction,
+  notes, fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction, fetchMoreNotes,
 }) => {
   const [formState, setFormState] = useState(initialState);
   const [edit, setEdit] = useState(false);
-  const { notesArray, isLoading, errors } = notes;
+  const {
+    notesArray, isLoading, errors, nextToken,
+  } = notes;
   const history = useHistory();
 
   const setInput = (key, value) => {
@@ -37,6 +39,13 @@ const App = ({
     history.push('/');
   };
 
+  const onLoadmoreNotes = (token) => {
+    if (token === null) {
+      alert('There is nothing left to load!');
+    } else {
+      fetchMoreNotes(token);
+    }
+  };
   // const onAddingNote = () => {
   //   history.push('/form');
   // };
@@ -79,6 +88,8 @@ const App = ({
   return (
     <AppContainerStyled>
       <Naviagtion />
+      <button type="button" onClick={() => onLoadmoreNotes(nextToken)}>Load more</button>
+      {}
       <Switch>
         <Route path="/form">
           <Form
@@ -115,6 +126,7 @@ export default withAuthenticator(connect(mapStateToProps, {
   addNotesAction,
   deleteNoteAction,
   updateNoteAction,
+  fetchMoreNotes,
 })(App));
 
 const AppContainerStyled = styled.div`
