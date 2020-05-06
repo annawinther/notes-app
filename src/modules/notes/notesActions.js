@@ -17,16 +17,35 @@ import {
   ON_TYPE_FORM_START,
   // ON_TYPE_FORM_SUCCESS,
   // ON_TYPE_FORM_FAILURE,
+  ON_FETCH_MORE_NOTES_SUCCESS,
 } from './notesTypes';
 
 export const fetchNotesAction = () => (dispatch) => {
   dispatch({ type: ON_FETCH_NOTES_START });
 
-  return API.graphql(graphqlOperation(listNotes))
+  return API.graphql(graphqlOperation(listNotes, { limit: 8 }))
     .then(({ data }) => {
       dispatch({
         type: ON_FETCH_NOTES_SUCCESS,
-        payload: data.listNotes.items,
+        payload: data.listNotes,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: ON_FETCH_NOTES_FAILURE,
+        payload: err,
+      });
+    });
+};
+
+export const fetchMoreNotes = (nextToken) => (dispatch) => {
+  dispatch({ type: ON_FETCH_NOTES_START });
+
+  return API.graphql(graphqlOperation(listNotes, { nextToken, limit: 3 }))
+    .then(({ data }) => {
+      dispatch({
+        type: ON_FETCH_MORE_NOTES_SUCCESS,
+        payload: data.listNotes,
       });
     })
     .catch((err) => {
@@ -43,7 +62,6 @@ export const addNotesAction = (note) => async (dispatch) => {
 
   await API.graphql(graphqlOperation(createNote, { input: note }))
     .then(({ data }) => {
-      console.log(data)
       dispatch({
         type: ON_ADD_NOTE_SUCCESS,
         payload: data.createNote,
