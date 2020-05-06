@@ -14,16 +14,34 @@ import {
   ON_UPDATE_NOTE_START,
   ON_UPDATE_NOTE_SUCCESS,
   ON_UPDATE_NOTE_FAILURE,
+  ON_FETCH_MORE_NOTES_SUCCESS,
 } from './notesTypes';
 
 export const fetchNotesAction = () => (dispatch) => {
   dispatch({ type: ON_FETCH_NOTES_START });
 
-  return API.graphql(graphqlOperation(listNotes))
+  return API.graphql(graphqlOperation(listNotes, { limit: 8 }))
     .then(({ data }) => {
       dispatch({
         type: ON_FETCH_NOTES_SUCCESS,
-        payload: data.listNotes.items,
+        payload: data.listNotes,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: ON_FETCH_NOTES_FAILURE,
+        payload: err,
+      });
+    });
+};
+
+export const fetchMoreNotes = (nextToken) => (dispatch) => {
+  dispatch({ type: ON_FETCH_NOTES_START });
+  return API.graphql(graphqlOperation(listNotes, { nextToken, limit: 3 }))
+    .then(({ data }) => {
+      dispatch({
+        type: ON_FETCH_MORE_NOTES_SUCCESS,
+        payload: data.listNotes,
       });
     })
     .catch((err) => {
