@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Form = ({
-  formState, setInput, createNote, handleSubmit, edit,
+  formState, setInput, createNote, handleSubmit, edit, fillInForm,
 }) => {
   const { name, description } = formState;
 

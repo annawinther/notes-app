@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Notes from './components/Notes';
 import Form from './components/Form';
 import {
-  fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction,
+  fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction, fillInForm,
 } from './modules/notes/notesActions';
 
 import './App.css';
@@ -13,14 +13,15 @@ const initialState = { id: null, name: '', description: '' };
 
 const App = ({
   // eslint-disable-next-line no-shadow
-  notes, fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction,
+  notes, fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction, fillInForm,
 }) => {
   const [formState, setFormState] = useState(initialState);
   const [edit, setEdit] = useState(false);
-  const { notesArray, isLoading, errors } = notes;
+  const { notesArray, isLoading, errors, form } = notes;
 
+  console.log(form)
   const setInput = (key, value) => {
-    setFormState({ ...formState, [key]: value });
+    fillInForm({ ...formState, [key]: value });
   };
 
   useEffect(() => {
@@ -68,6 +69,7 @@ const App = ({
         createNote={onCreateNote}
         handleSubmit={handleSubmit}
         edit={edit}
+        fillInForm={fillInForm}
       />
       <Notes
         notes={notesArray}
@@ -89,4 +91,5 @@ export default connect(mapStateToProps, {
   addNotesAction,
   deleteNoteAction,
   updateNoteAction,
+  fillInForm,
 })(withAuthenticator(App));

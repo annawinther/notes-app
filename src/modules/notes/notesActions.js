@@ -14,6 +14,9 @@ import {
   ON_UPDATE_NOTE_START,
   ON_UPDATE_NOTE_SUCCESS,
   ON_UPDATE_NOTE_FAILURE,
+  ON_TYPE_FORM_START,
+  // ON_TYPE_FORM_SUCCESS,
+  // ON_TYPE_FORM_FAILURE,
 } from './notesTypes';
 
 export const fetchNotesAction = () => (dispatch) => {
@@ -36,9 +39,11 @@ export const fetchNotesAction = () => (dispatch) => {
 
 export const addNotesAction = (note) => async (dispatch) => {
   dispatch({ type: ON_ADD_NOTE_START });
+  dispatch({ type: ON_TYPE_FORM_START });
 
   await API.graphql(graphqlOperation(createNote, { input: note }))
     .then(({ data }) => {
+      console.log(data)
       dispatch({
         type: ON_ADD_NOTE_SUCCESS,
         payload: data.createNote,
@@ -87,3 +92,8 @@ export const updateNoteAction = (updatedNote) => async (dispatch) => {
       });
     });
 };
+
+export const fillInForm = (data) => ({
+  type: ON_TYPE_FORM_START,
+  payload: data,
+});

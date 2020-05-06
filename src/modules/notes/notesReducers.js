@@ -11,6 +11,9 @@ import {
   ON_UPDATE_NOTE_START,
   ON_UPDATE_NOTE_SUCCESS,
   ON_UPDATE_NOTE_FAILURE,
+  ON_TYPE_FORM_START,
+  // ON_TYPE_FORM_SUCCESS,
+  ON_TYPE_FORM_FAILURE,
 } from './notesTypes';
 
 const initialState = {
@@ -18,6 +21,7 @@ const initialState = {
   isLoading: false,
   isEditing: false,
   errors: null,
+  form: { id: null, name: '', description: '' },
 };
 
 const noteReducer = (state = initialState, action) => {
@@ -96,6 +100,17 @@ const noteReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isEditing: false,
+        errors: action.payload,
+      };
+    case ON_TYPE_FORM_START:
+      console.log('actionnnnn', action.payload);
+      return {
+        ...state,
+        form: action.payload,
+      };
+    case ON_TYPE_FORM_FAILURE:
+      return {
+        ...state,
         errors: action.payload,
       };
     default:
