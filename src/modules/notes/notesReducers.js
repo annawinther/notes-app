@@ -22,7 +22,7 @@ const initialState = {
   isLoading: false,
   isEditing: false,
   errors: null,
-  form: { name: '', description: '' },
+  form: { id: null, name: '', description: '' },
   nextToken: null,
 };
 
@@ -116,12 +116,16 @@ const noteReducer = (state = initialState, action) => {
       console.log('action', action.payload);
       return {
         ...state,
-        form: { name: action.payload.name, description: action.payload.description },
+        form: {
+          id: action.payload.id,
+          name: action.payload.name,
+          description: action.payload.description,
+        },
       };
     case ON_TYPE_FORM_SUCCESS:
       return {
         ...state,
-        form: { name: '', description: '' },
+        form: { id: null, name: '', description: '' },
       };
     case ON_TYPE_FORM_FAILURE:
       return {

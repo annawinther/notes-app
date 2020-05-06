@@ -59,7 +59,6 @@ export const fetchMoreNotes = (nextToken) => (dispatch) => {
 export const addNotesAction = (note) => async (dispatch) => {
   dispatch({ type: ON_ADD_NOTE_START });
 
-
   await API.graphql(graphqlOperation(createNote, { input: note }))
     .then(({ data }) => {
       dispatch({
@@ -103,6 +102,7 @@ export const updateNoteAction = (updatedNote) => async (dispatch) => {
         type: ON_UPDATE_NOTE_SUCCESS,
         payload: data.updateNote,
       });
+      dispatch({ type: ON_TYPE_FORM_SUCCESS });
     })
     .catch((err) => {
       dispatch({

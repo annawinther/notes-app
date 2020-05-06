@@ -66,6 +66,7 @@ const App = ({
       id: note.id,
       ...note,
     };
+    fillInForm(updatedNote);
     // setFormState(updatedNote);
     history.push('/form');
   };
