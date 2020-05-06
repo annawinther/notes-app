@@ -12,7 +12,7 @@ import {
 
 import './App.css';
 
-const initialState = { id: null, name: '', description: '' };
+// const initialState = { id: null, name: '', description: '' };
 
 const App = ({
   // eslint-disable-next-line no-shadow
@@ -20,16 +20,17 @@ const App = ({
   // eslint-disable-next-line no-shadow
   fetchMoreNotes, fillInForm,
 }) => {
-  const [formState, setFormState] = useState(initialState);
+  // const [formState, setFormState] = useState(initialState);
   const [edit, setEdit] = useState(false);
   const {
-    notesArray, isLoading, errors, nextToken,
+    notesArray, isLoading, errors, nextToken, form,
   } = notes;
   const history = useHistory();
 
   // console.log(form)
   const setInput = (key, value) => {
-    fillInForm({ ...formState, [key]: value });
+    fillInForm({ ...form, [key]: value });
+    console.log('form', form);
   };
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const App = ({
   }, [fetchNotesAction]);
 
   const onCancel = () => {
-    setFormState(initialState);
+    // setFormState(initialState);
     setEdit(false);
     history.push('/');
   };
@@ -47,9 +48,9 @@ const App = ({
   };
 
   const onCreateNote = () => {
-    if (!formState.name || !formState.description) return;
-    const note = { ...formState };
-    setFormState(initialState);
+    if (!form.name || !form.description) return;
+    const note = { ...form };
+    // setFormState(initialState);
     addNotesAction(note);
     history.push('/');
   };
@@ -65,7 +66,7 @@ const App = ({
       id: note.id,
       ...note,
     };
-    setFormState(updatedNote);
+    // setFormState(updatedNote);
     history.push('/form');
   };
 
@@ -75,7 +76,7 @@ const App = ({
       name: note.name,
       description: note.description,
     };
-    setFormState(initialState);
+    // setFormState(initialState);
     setEdit(false);
     updateNoteAction(updatedNote);
     history.push('/');
@@ -87,7 +88,7 @@ const App = ({
       <Switch>
         <Route path="/form">
           <Form
-            formState={formState}
+            formState={form}
             setInput={setInput}
             createNote={onCreateNote}
             handleSubmit={handleSubmit}
