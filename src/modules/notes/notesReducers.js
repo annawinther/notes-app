@@ -15,6 +15,7 @@ import {
   ON_TYPE_FORM_SUCCESS,
   ON_TYPE_FORM_FAILURE,
   ON_FETCH_MORE_NOTES_SUCCESS,
+  ON_CANCEL_ACTION,
 } from './notesTypes';
 
 const initialState = {
@@ -113,7 +114,6 @@ const noteReducer = (state = initialState, action) => {
         errors: action.payload,
       };
     case ON_TYPE_FORM_START:
-      console.log('action', action.payload);
       return {
         ...state,
         form: {
@@ -131,6 +131,13 @@ const noteReducer = (state = initialState, action) => {
       return {
         ...state,
         errors: action.payload,
+      };
+    case ON_CANCEL_ACTION:
+      return {
+        ...state,
+        isLoading: false,
+        isEditing: false,
+        form: { id: null, name: '', description: '' },
       };
     default:
       return state;

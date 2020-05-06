@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router';
 import { withAuthenticator } from '@aws-amplify/ui-react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import Notes from './components/Notes';
 import Form from './components/Form';
 import Naviagtion from './components/Navigation';
@@ -11,6 +11,7 @@ import {
 } from './modules/notes/notesActions';
 
 import './App.css';
+import { ON_CANCEL_ACTION } from './modules/notes/notesTypes';
 
 // const initialState = { id: null, name: '', description: '' };
 
@@ -26,11 +27,10 @@ const App = ({
     notesArray, isLoading, errors, nextToken, form,
   } = notes;
   const history = useHistory();
-
+  const dispatch = useDispatch();
   // console.log(form)
   const setInput = (key, value) => {
     fillInForm({ ...form, [key]: value });
-    console.log('form', form);
   };
 
   useEffect(() => {
@@ -38,8 +38,10 @@ const App = ({
   }, [fetchNotesAction]);
 
   const onCancel = () => {
+    console.log('cancel');
     // setFormState(initialState);
     setEdit(false);
+    dispatch({ type: ON_CANCEL_ACTION });
     history.push('/');
   };
 
