@@ -11,26 +11,15 @@ const Note = ({
   const [rotate, setRotate] = useState(false);
 
   const toggleOpen = () => {
-    if (open) {
-      setOpen(false);
-    } else {
-      setOpen(true);
-    }
-  };
-
-  const rotateClick = () => {
-    if (rotate) {
-      setRotate(false);
-    } else {
-      setRotate(true);
-    }
+    setOpen(!open);
+    setRotate(!rotate);
   };
 
   return (
     <ListItems className="list-group">
       <li
         className="list-group-item border-0 d-flex justify-content-between align-items-center"
-        onClick={() => { toggleOpen(); rotateClick(); }}
+        onClick={() => toggleOpen()}
       >
         <TitleStyled>
           <ToggleIcon
