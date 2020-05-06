@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { connect, useDispatch } from 'react-redux';
@@ -11,7 +11,7 @@ import {
 } from './modules/notes/notesActions';
 
 import './App.css';
-import { ON_CANCEL_ACTION } from './modules/notes/notesTypes';
+import { ON_CANCEL_ACTION, ON_UPDATE_NOTE_START } from './modules/notes/notesTypes';
 
 // const initialState = { id: null, name: '', description: '' };
 
@@ -22,9 +22,9 @@ const App = ({
   fetchMoreNotes, fillInForm,
 }) => {
   // const [formState, setFormState] = useState(initialState);
-  const [edit, setEdit] = useState(false);
+  // const [edit, setEdit] = useState(false);
   const {
-    notesArray, isLoading, errors, nextToken, form,
+    notesArray, isLoading, isEditing, errors, nextToken, form,
   } = notes;
   const history = useHistory();
   const dispatch = useDispatch();
@@ -38,9 +38,9 @@ const App = ({
   }, [fetchNotesAction]);
 
   const onCancel = () => {
-    console.log('cancel');
+    // console.log('cancel');
     // setFormState(initialState);
-    setEdit(false);
+    // setEdit(false);
     dispatch({ type: ON_CANCEL_ACTION });
     history.push('/');
   };
@@ -63,13 +63,13 @@ const App = ({
   };
 
   const onUpdateNote = (note) => {
-    setEdit(true);
+    dispatch({ type: ON_UPDATE_NOTE_START });
+
     const updatedNote = {
       id: note.id,
       ...note,
     };
     fillInForm(updatedNote);
-    // setFormState(updatedNote);
     history.push('/form');
   };
 
@@ -80,7 +80,6 @@ const App = ({
       description: note.description,
     };
     // setFormState(initialState);
-    setEdit(false);
     updateNoteAction(updatedNote);
     history.push('/');
   };
@@ -96,7 +95,7 @@ const App = ({
             createNote={onCreateNote}
             handleSubmit={handleSubmit}
             onCancel={onCancel}
-            edit={edit}
+            edit={isEditing}
           />
         </Route>
         <Route exact path="/">

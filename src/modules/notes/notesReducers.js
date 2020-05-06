@@ -92,6 +92,7 @@ const noteReducer = (state = initialState, action) => {
         ...state,
         isLoading: true,
         isEditing: true,
+        form: state.form,
       };
     case ON_UPDATE_NOTE_SUCCESS:
       return {

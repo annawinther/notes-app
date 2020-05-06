@@ -8,7 +8,6 @@ const Form = ({
   formState, setInput, createNote, handleSubmit, edit, onCancel,
 }) => {
   const { name, description } = formState;
-
   return (
     <FormStyled>
       <TopStyled>

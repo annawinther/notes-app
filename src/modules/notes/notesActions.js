@@ -11,7 +11,7 @@ import {
   ON_DELETE_NOTE_START,
   ON_DELETE_NOTE_SUCCESS,
   ON_DELETE_NOTE_FAILURE,
-  ON_UPDATE_NOTE_START,
+  // ON_UPDATE_NOTE_START,
   ON_UPDATE_NOTE_SUCCESS,
   ON_UPDATE_NOTE_FAILURE,
   ON_TYPE_FORM_START,
@@ -94,7 +94,7 @@ export const deleteNoteAction = (input) => async (dispatch) => {
 };
 
 export const updateNoteAction = (updatedNote) => async (dispatch) => {
-  dispatch({ type: ON_UPDATE_NOTE_START });
+  // dispatch({ type: ON_UPDATE_NOTE_START });
 
   await API.graphql(graphqlOperation(updateNote, { input: updatedNote }))
     .then(({ data }) => {
