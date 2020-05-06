@@ -37,10 +37,6 @@ export const fetchNotesAction = () => (dispatch) => {
 
 export const fetchMoreNotes = (nextToken) => (dispatch) => {
   dispatch({ type: ON_FETCH_NOTES_START });
-  // if (nextToken === null){
-  //   alert('There is nothing left to load!')
-  //   return
-  // } else {
   return API.graphql(graphqlOperation(listNotes, { nextToken, limit: 3 }))
     .then(({ data }) => {
       dispatch({
@@ -54,7 +50,6 @@ export const fetchMoreNotes = (nextToken) => (dispatch) => {
         payload: err,
       });
     });
-  // }
 };
 
 export const addNotesAction = (note) => async (dispatch) => {

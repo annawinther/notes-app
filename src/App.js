@@ -42,9 +42,6 @@ const App = ({
   const onLoadmoreNotes = (token) => {
     fetchMoreNotes(token);
   };
-  // const onAddingNote = () => {
-  //   history.push('/form');
-  // };
 
   const onCreateNote = () => {
     if (!formState.name || !formState.description) return;
@@ -102,7 +99,6 @@ const App = ({
             errors={errors}
             deleteNote={onDeleteNote}
             updateNote={onUpdateNote}
-            // onAddingNote={onAddingNote}
             history={history}
           />
           {' '}
