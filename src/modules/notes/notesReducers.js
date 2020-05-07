@@ -25,6 +25,7 @@ const initialState = {
   errors: null,
   form: { id: null, name: '', description: '' },
   nextToken: null,
+  isSaving: false,
 };
 
 const noteReducer = (state = initialState, action) => {
@@ -117,6 +118,7 @@ const noteReducer = (state = initialState, action) => {
     case ON_TYPE_FORM_START:
       return {
         ...state,
+        isSaving: false,
         form: {
           id: action.payload.id,
           name: action.payload.name,
@@ -126,11 +128,13 @@ const noteReducer = (state = initialState, action) => {
     case ON_TYPE_FORM_SUCCESS:
       return {
         ...state,
+        isSaving: true,
         form: { id: null, name: '', description: '' },
       };
     case ON_TYPE_FORM_FAILURE:
       return {
         ...state,
+        isSaving: false,
         errors: action.payload,
       };
     case ON_CANCEL_ACTION:

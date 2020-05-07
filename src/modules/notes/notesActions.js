@@ -18,8 +18,6 @@ import {
   ON_TYPE_FORM_SUCCESS,
   // ON_TYPE_FORM_FAILURE,
   ON_FETCH_MORE_NOTES_SUCCESS,
-  ON_TYPE_FORM_TITLE_SUCCESS,
-  ON_TYPE_FORM_DESCRIPTION_SUCCESS,
 } from './notesTypes';
 
 export const fetchNotesAction = () => (dispatch) => {
@@ -114,10 +112,9 @@ export const updateNoteAction = (updatedNote) => async (dispatch) => {
     });
 };
 
-export const fillInForm = (data, isSaving) => async (dispatch) => {
+export const fillInForm = (data) => async (dispatch) => {
   dispatch({ type: ON_TYPE_FORM_START, payload: data });
-  console.log(data, isSaving);
+  // console.log(data, isSaving);
 
   await API.graphql(graphqlOperation(createNote, { input: data }));
-
 };
