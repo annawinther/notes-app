@@ -11,7 +11,11 @@ import {
   ON_UPDATE_NOTE_START,
   ON_UPDATE_NOTE_SUCCESS,
   ON_UPDATE_NOTE_FAILURE,
+  ON_TYPE_FORM_START,
+  ON_TYPE_FORM_SUCCESS,
+  ON_TYPE_FORM_FAILURE,
   ON_FETCH_MORE_NOTES_SUCCESS,
+  ON_CANCEL_ACTION,
 } from './notesTypes';
 
 const initialState = {
@@ -19,7 +23,9 @@ const initialState = {
   isLoading: false,
   isEditing: false,
   errors: null,
+  form: { id: null, name: '', description: '' },
   nextToken: null,
+  isSaving: false,
 };
 
 const noteReducer = (state = initialState, action) => {
@@ -87,6 +93,7 @@ const noteReducer = (state = initialState, action) => {
         ...state,
         isLoading: true,
         isEditing: true,
+        form: state.form,
       };
     case ON_UPDATE_NOTE_SUCCESS:
       return {
@@ -107,6 +114,35 @@ const noteReducer = (state = initialState, action) => {
         isLoading: false,
         isEditing: false,
         errors: action.payload,
+      };
+    case ON_TYPE_FORM_START:
+      return {
+        ...state,
+        isSaving: false,
+        form: {
+          id: action.payload.id,
+          name: action.payload.name,
+          description: action.payload.description,
+        },
+      };
+    case ON_TYPE_FORM_SUCCESS:
+      return {
+        ...state,
+        isSaving: true,
+        form: { id: null, name: '', description: '' },
+      };
+    case ON_TYPE_FORM_FAILURE:
+      return {
+        ...state,
+        isSaving: false,
+        errors: action.payload,
+      };
+    case ON_CANCEL_ACTION:
+      return {
+        ...state,
+        isLoading: false,
+        isEditing: false,
+        form: { id: null, name: '', description: '' },
       };
     default:
       return state;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { MdClear } from 'react-icons/md';
+import { debounce } from 'lodash';
 import {
   ButtonsDiv, FormStyled, Button, TopStyled, CreateSaveBtn,
 } from '../styles';
@@ -7,7 +8,16 @@ import {
 const Form = ({
   formState, setInput, createNote, handleSubmit, edit, onCancel,
 }) => {
-  const { name, description } = formState;
+  // const { name, description } = formState;
+
+  const handleUpdate = debounce((e) => {
+    setInput('name', e);
+  }, 1000);
+
+  const handleUpdateDes = debounce((e) => {
+
+    setInput('description', e);
+  }, 1000);
 
   return (
     <FormStyled>
@@ -23,8 +33,8 @@ const Form = ({
       <div className="form-group">
         <input
           className="form-control"
-          onChange={(e) => setInput('name', e.target.value)}
-          value={name}
+          onChange={(e) => handleUpdate(e.target.value)}
+          // value={search}
           placeholder="Title"
         />
 
@@ -32,8 +42,8 @@ const Form = ({
       <div className="form-group">
         <textarea
           className="form-control"
-          onChange={(e) => setInput('description', e.target.value)}
-          value={description}
+          onChange={(e) => handleUpdateDes(e.target.value)}
+          // value={description}
           placeholder="Description"
         />
 

@@ -11,9 +11,12 @@ import {
   ON_DELETE_NOTE_START,
   ON_DELETE_NOTE_SUCCESS,
   ON_DELETE_NOTE_FAILURE,
-  ON_UPDATE_NOTE_START,
+  // ON_UPDATE_NOTE_START,
   ON_UPDATE_NOTE_SUCCESS,
   ON_UPDATE_NOTE_FAILURE,
+  ON_TYPE_FORM_START,
+  ON_TYPE_FORM_SUCCESS,
+  // ON_TYPE_FORM_FAILURE,
   ON_FETCH_MORE_NOTES_SUCCESS,
 } from './notesTypes';
 
@@ -37,6 +40,7 @@ export const fetchNotesAction = () => (dispatch) => {
 
 export const fetchMoreNotes = (nextToken) => (dispatch) => {
   dispatch({ type: ON_FETCH_NOTES_START });
+
   return API.graphql(graphqlOperation(listNotes, { nextToken, limit: 3 }))
     .then(({ data }) => {
       dispatch({
@@ -61,6 +65,7 @@ export const addNotesAction = (note) => async (dispatch) => {
         type: ON_ADD_NOTE_SUCCESS,
         payload: data.createNote,
       });
+      dispatch({ type: ON_TYPE_FORM_SUCCESS });
     })
     .catch((err) => {
       dispatch({
@@ -89,7 +94,7 @@ export const deleteNoteAction = (input) => async (dispatch) => {
 };
 
 export const updateNoteAction = (updatedNote) => async (dispatch) => {
-  dispatch({ type: ON_UPDATE_NOTE_START });
+  // dispatch({ type: ON_UPDATE_NOTE_START });
 
   await API.graphql(graphqlOperation(updateNote, { input: updatedNote }))
     .then(({ data }) => {
@@ -97,6 +102,7 @@ export const updateNoteAction = (updatedNote) => async (dispatch) => {
         type: ON_UPDATE_NOTE_SUCCESS,
         payload: data.updateNote,
       });
+      dispatch({ type: ON_TYPE_FORM_SUCCESS });
     })
     .catch((err) => {
       dispatch({
@@ -104,4 +110,11 @@ export const updateNoteAction = (updatedNote) => async (dispatch) => {
         payload: err.message,
       });
     });
+};
+
+export const fillInForm = (data) => async (dispatch) => {
+  dispatch({ type: ON_TYPE_FORM_START, payload: data });
+  // console.log(data, isSaving);
+
+  await API.graphql(graphqlOperation(createNote, { input: data }));
 };

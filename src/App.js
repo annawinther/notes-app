@@ -1,32 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router';
 import { withAuthenticator } from '@aws-amplify/ui-react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import Notes from './components/Notes';
 import Form from './components/Form';
 import Naviagtion from './components/Navigation';
 import { AppContainerStyled, Button, LoadButtonDiv } from './styles';
 import {
-  fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction, fetchMoreNotes,
+  fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction, fetchMoreNotes, fillInForm,
 } from './modules/notes/notesActions';
+import { ON_CANCEL_ACTION, ON_UPDATE_NOTE_START } from './modules/notes/notesTypes';
 
 import './App.css';
 
-const initialState = { id: null, name: '', description: '' };
-
 const App = ({
   // eslint-disable-next-line no-shadow
-  notes, fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction, fetchMoreNotes,
+  notes, fetchNotesAction, addNotesAction, deleteNoteAction, updateNoteAction,
+  // eslint-disable-next-line no-shadow
+  fetchMoreNotes, fillInForm,
 }) => {
-  const [formState, setFormState] = useState(initialState);
-  const [edit, setEdit] = useState(false);
   const {
-    notesArray, isLoading, errors, nextToken,
+    notesArray, isLoading, isEditing, errors, nextToken, form, isSaving,
   } = notes;
   const history = useHistory();
+  const dispatch = useDispatch();
+  // console.log(form);
 
   const setInput = (key, value) => {
-    setFormState({ ...formState, [key]: value });
+    fillInForm({ ...form, [key]: value }, isSaving);
   };
 
   useEffect(() => {
@@ -34,8 +35,7 @@ const App = ({
   }, [fetchNotesAction]);
 
   const onCancel = () => {
-    setFormState(initialState);
-    setEdit(false);
+    dispatch({ type: ON_CANCEL_ACTION });
     history.push('/');
   };
 
@@ -44,9 +44,8 @@ const App = ({
   };
 
   const onCreateNote = () => {
-    if (!formState.name || !formState.description) return;
-    const note = { ...formState };
-    setFormState(initialState);
+    if (!form.name || !form.description) return;
+    const note = { ...form };
     addNotesAction(note);
     history.push('/');
   };
@@ -57,12 +56,13 @@ const App = ({
   };
 
   const onUpdateNote = (note) => {
-    setEdit(true);
+    dispatch({ type: ON_UPDATE_NOTE_START });
+
     const updatedNote = {
       id: note.id,
       ...note,
     };
-    setFormState(updatedNote);
+    fillInForm(updatedNote);
     history.push('/form');
   };
 
@@ -72,8 +72,6 @@ const App = ({
       name: note.name,
       description: note.description,
     };
-    setFormState(initialState);
-    setEdit(false);
     updateNoteAction(updatedNote);
     history.push('/');
   };
@@ -84,12 +82,12 @@ const App = ({
       <Switch>
         <Route path="/form">
           <Form
-            formState={formState}
+            formState={form}
             setInput={setInput}
             createNote={onCreateNote}
             handleSubmit={handleSubmit}
             onCancel={onCancel}
-            edit={edit}
+            edit={isEditing}
           />
         </Route>
         <Route exact path="/">
@@ -124,4 +122,5 @@ export default withAuthenticator(connect(mapStateToProps, {
   deleteNoteAction,
   updateNoteAction,
   fetchMoreNotes,
+  fillInForm,
 })(App));
